@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up / Login | TextiQueen 👑</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(120deg, #ff00cc, #3333ff);
+      /* Use overflow-x: hidden to prevent horizontal scroll only */
+      overflow-x: hidden; 
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; position: relative;
+    }
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 200%; height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: 0;
+      animation: moveBg 8s linear infinite;
+      /* Ensure this doesn't overflow the viewport */
+      max-width: 100vw; 
+    }
+    @keyframes moveBg {
+      from { transform: translate(0, 0); }
+      to { transform: translate(-50px, -50px); }
+    }
+    /* Main Container */
+    .container {
+      position: relative;
+      display: flex; flex-wrap: wrap;
+      background: rgba(255,255,255,0.95);
+      border-radius: 20px;
+      overflow: hidden;
+      max-width: 950px; 
+      width: 90%; /* Use 90% for better fit on small viewports */
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      z-index: 1;
+      transition: all 0.6s ease-in-out;
+    }
+    /* Welcome Panel */
+    .welcome {
+      flex: 1;
+      min-width: 330px;
+      background: linear-gradient(135deg, #6a00ff, #ff0099, #00eaff);
+      color: white;
+      padding: 50px;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .welcome::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 60%);
+      top: -100px; right: -100px;
+      filter: blur(60px);
+      border-radius: 50%;
+    }
+    .welcome h1 { font-size: 2.2rem; margin-bottom: 15px; } 
+    .welcome p { font-size: 0.95rem; margin-bottom: 20px; opacity: 0.9; max-width: 300px; }
+    .magic-text {
+      font-size: 1.1rem; font-weight: 600;
+      color: #fff; text-shadow: 0 0 15px #fff;
+      background: linear-gradient(90deg, #00ffff, #fff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-size: 400%; animation: textflow 4s linear infinite;
+    }
+    @keyframes textflow { 0% { background-position: 0%; } 100% { background-position: 400%; } }
+    .welcome ul { list-style: none; text-align: left; margin-top: 25px; } 
+    .welcome ul li { margin-bottom: 8px; font-size: 0.9rem; } 
+    .welcome ul li i { margin-right: 8px; color: #ffd700; }
+    /* Form Panel */
+    .form-panel {
+      flex: 1;
+      min-width: 300px;
+      padding: 40px;
+      display: flex; flex-direction: column; justify-content: center;
+      background: white;
+      position: relative;
+      transition: all 0.6s ease;
+    }
+    .form-panel h2 { color: #333; display: flex; align-items: center; gap: 8px; margin-bottom: 20px; }
+    .input-group { position: relative; margin-bottom: 15px; }
+    .input-group i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #888; }
+    .form-panel input {
+      width: 100%; padding: 12px 12px 12px 35px;
+      border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; outline: none;
+      transition: 0.3s;
+    }
+    .form-panel input:focus { border-color: #6a00ff; box-shadow: 0 0 8px rgba(106,0,255,0.3); }
+    .form-panel button {
+      width: 100%; padding: 12px;
+      border: none; border-radius: 8px;
+      font-size: 1rem; color: white;
+      background: linear-gradient(135deg, #6a00ff, #ff0099);
+      cursor: pointer; transition: 0.3s;
+      margin-top: 5px; 
+    }
+    .form-panel button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(106,0,255,0.3);
+    }
+    .divider {
+      text-align: center; margin: 20px 0; color: #aaa; font-size: 0.9rem; position: relative;
+    }
+    .divider::before, .divider::after {
+      content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: #ccc;
+    }
+    .divider::before { left: 0; } .divider::after { right: 0; }
+    .social-login {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .social-login p {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; padding: 10px;
+      border: 1px solid #ddd; border-radius: 6px;
+      cursor: pointer; font-size: 0.95rem; transition: 0.3s;
+    }
+    .social-login p:hover { background-color: #f8f8f8; transform: scale(1.03); }
+    .social-login img { width: 20px; height: 20px; }
+    .toggle-text { margin-top: 15px; text-align: center; font-size: 0.9rem; color: #555; } 
+    .toggle-text span { color: #6a00ff; cursor: pointer; font-weight: 600; }
+
+    /* Popup */
+    .popup {
+      position: fixed; top: 50%; left: 50%; 
+      transform: translate(-50%, -50%);
+      background: white; border-radius: 20px;
+      padding: 40px 60px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+      text-align: center; z-index: 100; display: none;
+      max-width: 90%; 
+    }
+    .popup.active { display: block; animation: pop 0.6s ease; }
+    @keyframes pop {
+      0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    .popup i {
+      font-size: 3rem;
+      background: linear-gradient(90deg, #6a00ff, #ff0099);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+    }
+    .popup h2 {
+      font-size: 1.6rem;
+      background: linear-gradient(90deg, #6a00ff, #ff0099);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .popup p {
+      font-size: 1rem; color: #555;
+      line-height: 1.5;
+    }
+    .popup span.name {
+      background: linear-gradient(90deg, #ff00cc, #3333ff);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    /* Mobile Optimizations (Max 768px) */
+    @media (max-width: 768px) {
+      body {
+        min-height: auto; 
+        padding: 20px 0; 
+      }
+      .container { 
+        flex-direction: column; 
+        max-width: 95%; 
+        width: 95%; 
+      }
+      .welcome { 
+        padding: 30px 20px; 
+      }
+      .welcome h1 { font-size: 2rem; }
+      .welcome p { font-size: 0.9rem; margin-bottom: 15px; }
+      .welcome ul { margin-top: 15px; }
+      .welcome ul li { font-size: 0.85rem; }
+
+      .form-panel { 
+        padding: 30px 20px; 
+      }
+      .form-panel h2 { font-size: 1.4rem; margin-bottom: 15px; } 
+      .input-group { margin-bottom: 10px; } 
+      .form-panel input, .form-panel button { padding: 10px 10px 10px 35px; font-size: 0.95rem; }
+
+      .divider { margin: 15px 0; }
+      .toggle-text { margin-top: 10px; }
+      
+      .popup { 
+        padding: 25px 30px; 
+        max-width: 90%;
+        width: 90%;
+        left: 50%; 
+        transform: translate(-50%, -50%);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="container">
+    <div class="welcome">
+      <h1>Welcome to TextiQueen 👑</h1>
+      <p>Your creativity deserves the royal treatment. Design, customize, and rule your fashion world!</p>
+      <div class="magic-text">✨ Style. Create. Rule. ✨</div>
+      <ul>
+        <li><i class="fa-solid fa-star"></i> Premium rewards for loyal users</li>
+        <li><i class="fa-solid fa-shirt"></i> Create custom T-shirts with AI</li>
+        <li><i class="fa-solid fa-bolt"></i> Fast & secure login experience</li>
+      </ul>
+    </div>
+
+    <div class="form-panel" id="formPanel">
+      <h2><i class="fa-solid fa-user-plus"></i> Create Account</h2>
+      <form id="signupForm">
+        <div class="input-group"><i class="fa-solid fa-user"></i><input type="text" id="signup-username" placeholder="Full Name" required></div>
+        <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="signup-email" placeholder="Email Address" required></div>
+        <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="signup-password" placeholder="Password" required></div>
+        <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="signup-confirm-password" placeholder="Confirm Password" required></div>
+        <button type="button" onclick="handleSignUp()">✨ Create Account</button>
+      </form>
+
+      <div class="divider">or</div>
+      <div class="social-login">
+        <p onclick="continueWithGoogle()"><img src="google.png" alt="Google Logo"> Continue with Google</p>
+        <p onclick="continueWithFacebook()"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" alt="Facebook Logo"> Continue with Facebook</p>
+      </div>
+      <div class="toggle-text">Already have an account? <span onclick="showLogin()">Login</span></div>
+    </div>
+  </div>
+
+  <div class="popup" id="successPopup">
+    <i class="fa-solid fa-crown"></i>
+    <h2 id="popupTitle">Welcome to TextiQueen 👑</h2>
+    <p id="popupMessage"></p>
+  </div>
+
+  <script>
+    function handleSignUp() {
+      const name = document.getElementById("signup-username").value.trim();
+      const email = document.getElementById("signup-email").value.trim();
+      const password = document.getElementById("signup-password").value.trim();
+      const confirmPassword = document.getElementById("signup-confirm-password").value.trim();
+
+      if (!name || !email || !password || !confirmPassword) {
+        alert("Please fill all fields.");
+        return;
+      }
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      // Basic validation passed, simulate account creation
+      localStorage.setItem("textiqueenName", name);
+      localStorage.setItem("textiqueenEmail", email);
+      localStorage.setItem("textiqueenPassword", password);
+
+      const popup = document.getElementById("successPopup");
+      const popupMessage = document.getElementById("popupMessage");
+      popupMessage.innerHTML = `
+        <span class='name'>Hii ${name}</span> 👑<br>
+        You’re officially part of the royal style world!<br>
+        Let's create your first masterpiece ✨
+      `;
+
+      popup.classList.add("active");
+      setTimeout(() => {
+        popup.classList.remove("active");
+        // Alert for demonstration
+        location.href = "Textiqueen.html";
+        
+        // This is a placeholder, uncomment the line below for real redirect
+        // window.location.href = "Textiqueen.html"; 
+      }, 3000);
+    }
+
+    function showLogin() {
+      const panel = document.getElementById("formPanel");
+      panel.innerHTML = `
+        <h2><i class='fa-solid fa-right-to-bracket'></i> Login</h2>
+        <form id="loginForm">
+          <div class="input-group"><i class="fa-solid fa-envelope"></i><input type="email" id="login-email" placeholder="Email Address" required></div>
+          <div class="input-group"><i class="fa-solid fa-lock"></i><input type="password" id="login-password" placeholder="Password" required></div>
+          <button type="button" onclick="handleLogin()">🔑 Login</button>
+        </form>
+        <div class="divider">or</div>
+        <div class="social-login">
+          <p onclick="continueWithGoogle()"><img src='google.png' alt="Google Logo"> Continue with Google</p>
+          <p onclick="continueWithFacebook()"><img src='https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png' alt="Facebook Logo"> Continue with Facebook</p>
+        </div>
+        <div class="toggle-text">Don't have an account? <span onclick="showSignUp()">Sign Up</span></div>
+      `;
+    }
+
+    function showSignUp() {
+      // Reloads the page to show the initial Sign Up form
+      location.reload();
+    }
+
+    function handleLogin() {
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
+      
+      // Get stored credentials
+      const storedEmail = localStorage.getItem("textiqueenEmail");
+      const storedPassword = localStorage.getItem("textiqueenPassword");
+      const storedName = localStorage.getItem("textiqueenName") || "Queen/King";
+
+      if (email === storedEmail && password === storedPassword && storedEmail !== null) {
+        location.href = "Textiqueen.html";
+        // Simulate redirect after successful login
+        // window.location.href = "Textiqueen.html"; 
+      } else if (storedEmail === null) {
+        alert("No account found. Please sign up first.");
+      } else {
+        alert("Invalid email or password.");
+      }
+    }
+
+    function continueWithGoogle() {
+      window.open("https://accounts.google.com/signin", "_blank");
+    }
+
+    function continueWithFacebook() {
+      window.open("https://www.facebook.com/login", "_blank");
+    }
+  </script>
+</body>
+</html>

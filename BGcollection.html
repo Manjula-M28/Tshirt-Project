@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TextiQueen T-Shirts — Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Roboto',sans-serif;background:#f7f8fb;color:#222;line-height:1.35}
+.header {
+  background:#fff;padding:18px 20px;box-shadow:0 2px 10px rgba(0,0,0,.06);
+  position:sticky;top:0;z-index:60;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+/* MODIFIED: Make the left section take up space and align content for centering */
+.header-left { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px;
+    flex: 1; /* Allows it to grow and push the brand towards the center */
+}
+.back-arrow {
+    font-size: 1.8rem;
+    color: #e91e63;
+    cursor: pointer;
+}
+/* MODIFIED: Added justify-content: center to center the brand name itself */
+.brand { 
+    display:flex; 
+    gap:12px; 
+    align-items:center; 
+    flex: 1; 
+    justify-content: center; /* Center content horizontally */
+    margin-left: -50px; /* Offset to visually center, accounting for the icons on the right */
+}
+.brand h1 { font-family:'Playfair Display',serif;color:#e91e63;font-size:1.7rem;margin:0}
+.tag { color:#777;font-size:0.95rem }
+.header-actions { 
+    display:flex; 
+    gap:14px; 
+    align-items:center; 
+    /* NEW: Removed flex: 1 to ensure icons stay on the right */
+}
+.tabs { max-width:1200px;margin:22px auto 0;padding:0 18px; display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+.tab-btn { background:#fff; border-radius:999px; padding:8px 14px; border:1px solid #eee; cursor:pointer; font-weight:600; color:#333; }
+.tab-btn.active { background:linear-gradient(90deg,#ffeef6,#fff1f7); border-color:#f3c1d9; color:#e91e63; box-shadow:0 6px 20px rgba(233,30,99,0.08) }
+.container { max-width:1200px; margin:18px auto; padding:0 18px 80px; display:grid; grid-template-columns:1fr; gap:18px; }
+.grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); }
+.product-card { background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(16,24,40,.06); overflow:hidden; cursor:pointer; transition:transform .22s,box-shadow .22s; display:flex;flex-direction:column }
+.product-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(16,24,40,.08)}
+.product-image-container{aspect-ratio:1/1;overflow:hidden}
+.product-image{width:100%;height:100%;object-fit:cover;display:block;transition:transform .28s}
+.product-card:hover .product-image{transform:scale(1.06)}
+.product-info{padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.product-title{font-weight:700;font-size:1rem;color:#222}
+.price{color:#e91e63;font-weight:800}
+.price del{font-weight:400;color:#999;margin-left:8px;font-size:0.86rem}
+.actions{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px}
+.btn{border-radius:8px;padding:8px 10px;border:0;cursor:pointer;font-weight:600}
+.btn-cart{background:#e91e63;color:#fff}
+.btn-fav{background:#f3f3f3;color:#e91e63}
+.btn-fav.favorited{background:#e91e63;color:#fff}
+.action-icon{position:relative;font-size:1.5rem;color:#e91e63;cursor:pointer}
+.notification-count{position:absolute;top:-8px;right:-10px;background:#4caf50;color:#fff;border-radius:50%;padding:3px 7px;font-size:0.7rem;display:none}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:20px;z-index:120}
+.modal-content{background:#fff;border-radius:12px;max-width:900px;width:100%;max-height:90vh;overflow:auto;padding:18px;position:relative}
+.close-btn{position:absolute;right:14px;top:10px;font-size:22px;color:#777;cursor:pointer}
+.modal-body{display:flex;gap:18px;align-items:flex-start}
+.modal-image-container{width:45%;aspect-ratio:1/1;overflow:hidden;border-radius:8px}
+.modal-image{width:100%;height:100%;object-fit:cover}
+.modal-details{width:55%;padding:6px 0;overflow:auto}
+#modal-sizes { padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px dashed #eee; }
+#modal-rating { color:#FFD700;margin-bottom:8px;font-size:1rem }
+#modal-sizes .size-btn{background:#f0f0f0;border:1px solid #ddd;padding:8px 12px;margin:6px;border-radius:8px;cursor:pointer}
+#modal-sizes .size-btn.selected{background:#e91e63;color:#fff;border-color:#e91e63}
+
+/* NEW: Shake animation for size buttons */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+.shake-animation {
+  animation: shake 0.5s;
+  border: 2px solid red !important;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+}
+
+/* ---------- Reviews ---------- */
+.review-item{padding:8px 0;border-bottom:1px dashed #f2f2f2}
+.review-author{font-weight:700;color:#e91e63}
+
+/* Cart / favorites list */
+.list-item-container{max-height:400px;overflow:auto;padding-top:8px}
+.cart-item,.favorite-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.item-image{width:64px;height:64px;object-fit:cover;border-radius:6px}
+
+/* NEW: Clickable areas inside modals */
+.cart-item-info, .favorite-item-info-area {
+    cursor: pointer;
+    transition: background-color 0.1s;
+    padding: 0 5px; /* Add padding for better clickable area */
+    border-radius: 4px;
+}
+.cart-item-info:hover, .favorite-item-info-area:hover {
+    background-color: #f5f5f5;
+}
+
+
+/* MODIFIED: Cart controls layout to include input */
+.cart-item-info { flex: 1; }
+.cart-item-controls {
+  display: flex;
+  flex-direction: row; 
+  gap: 0;
+  align-items: center;
+  margin-left: 10px;
+}
+.cart-item-controls .btn {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 0;
+}
+.quantity-input {
+  width: 40px;
+  text-align: center;
+  padding: 4px 0;
+  border: 1px solid #ccc;
+  height: 28px;
+  font-weight: 600;
+  /* -moz-appearance: textfield; */
+}
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cart-item-controls .btn-minus {
+  border-radius: 8px 0 0 8px;
+}
+.cart-item-controls .btn-plus {
+  border-radius: 0 8px 8px 0;
+}
+.cart-item-controls .btn-remove {
+  margin-left: 8px;
+  border-radius: 8px;
+  padding: 7px 8px;
+}
+
+/* Star rating system for review modal */
+#review-rating-input span {
+    margin-right: 3px;
+    transition: transform 0.1s;
+}
+#review-rating-input span:hover {
+    transform: scale(1.1);
+}
+
+/* ---------- Small screens (Mobile View) ---------- */
+@media (max-width:800px){
+  .modal-body{flex-direction:column}
+  .modal-image-container,.modal-details{width:100%}
+  .tabs{padding:10px}
+}
+@media (max-width:576px) {
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(calc(50% - 10px), 1fr));
+    }
+}
+
+/* ---------- Footer ---------- */
+.footer{background:#222;color:#fff;padding:18px;text-align:center;margin-top:30px}
+.footer a{color:#f48fb1;text-decoration:none}
+
+/* tiny utilities */
+.row{display:flex;gap:10px;align-items:center}
+.center{display:flex;align-items:center;justify-content:center}
+.back-arrow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 24px;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.back-arrow:hover {
+  color: #ff4081;
+}
+
+
+/* 📱 Mobile */
+@media (max-width: 600px) {
+  .back-arrow i {
+    display: none;
+  }
+}
+
+
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <span class="back-arrow" onclick="window.history.back()" title="Go Back">
+<a href="Textiqueen.html" class="back-arrow" title="Go Back">
+  <i class="fas fa-arrow-left"></i>
+</a>    </span>
+    <div class="brand">
+      <div>
+        <center>
+        <h1>TextiQueen</h1>
+        <div class="tag">Wear your attitude in style 👑</div>
+        </center>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <div id="favorites-icon" class="action-icon" title="Favorites">
+      <i class="fas fa-heart"></i>
+      <span id="favorites-count" class="notification-count">0</span>
+    </div>
+
+    <div id="cart-icon" class="action-icon" title="Cart">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cart-count" class="notification-count">0</span>
+    </div>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" data-cat="girls">Girls</button>
+  <button class="tab-btn" data-cat="boys">Boys</button>
+  <button class="tab-btn" data-cat="men">Men</button>
+  <button class="tab-btn" data-cat="women">Women</button>
+</div>
+
+<main class="container">
+  <section id="product-grid" class="grid"></section>
+</main>
+
+<div id="productModal" class="modal" aria-hidden="true">
+  <div class="modal-content">
+    <span class="close-btn" data-modal="product">&times;</span>
+    <div class="modal-body">
+      <div class="modal-image-container">
+        <img id="modal-image" class="modal-image" src="" alt="product">
+      </div>
+      <div class="modal-details">
+        <h2 id="modal-title"></h2>
+        <div id="modal-price" class="price"></div>
+        <div id="modal-rating"></div>
+
+        <div id="modal-sizes"><h4>Sizes</h4></div>
+        
+        <div id="product-reviews">
+          <h4>Customer Reviews (<span id="review-count-display">0</span>)
+            <button id="add-review-btn" class="btn" style="background:#f6f6f6;color:#e91e63;padding:6px 8px;margin-left:10px"> <i class="fas fa-pen"></i> Add Review</button>
+          </h4>
+          <div id="reviews-list"><p>No reviews yet. Be the first!</p></div>
+        </div>
+
+        <div style="margin-top:16px" class="row">
+          <button class="btn add-to-cart-modal" disabled data-id=""><i class="fas fa-shopping-cart"></i> Select size to add</button>
+          <button class="btn place-order-btn" disabled style="background:#e91e63;color:#fff">Buy now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="reviewModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" data-modal="review">&times;</span>
+    <h3>Write a review for <span id="review-product-title"></span></h3>
+    <form id="review-form" style="margin-top:10px">
+      <label>Your name</label>
+      <input id="review-author" required style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-top:6px">
+
+      <label style="margin-top:10px">Rating</label>
+      <div id="review-rating-input" class="row" data-rating="0" style="margin-top:6px; font-size:1.4rem; color:#ccc; cursor:pointer">
+        <span data-value="1"><i class="far fa-star"></i></span>
+        <span data-value="2"><i class="far fa-star"></i></span>
+        <span data-value="3"><i class="far fa-star"></i></span>
+        <span data-value="4"><i class="far fa-star"></i></span>
+        <span data-value="5"><i class="far fa-star"></i></span>
+      </div>
+
+      <label style="margin-top:10px">Comment</label>
+      <textarea id="review-comment" required style="width:100%;padding:8px;border:1px solid #ddd;border-radius:6px;margin-top:6px;height:90px"></textarea>
+
+      <button type="submit" style="margin-top:12px;padding:10px 12px;background:#4caf50;color:#fff;border:0;border-radius:8px">Submit review</button>
+    </form>
+  </div>
+</div>
+
+<div id="cartModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" data-modal="cart">&times;</span>
+    <h3>Your cart</h3>
+    <div id="cart-items-container" class="list-item-container">
+      <p>Your cart is empty.</p>
+    </div>
+    <div style="text-align:right;margin-top:10px;font-weight:800">Total: <span id="cart-total">₹0</span></div>
+    <div style="margin-top:14px;text-align:right">
+      <button id="checkout-btn" class="btn place-order-btn" disabled>Checkout</button>
+    </div>
+  </div>
+</div>
+
+<div id="favoritesModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" data-modal="favorites">&times;</span>
+    <h3>Your favorites ❤️</h3>
+    <div id="favorites-items-container" class="list-item-container">
+      <p>You haven't added any favorites yet.</p>
+    </div>
+    <div style="margin-top:12px;text-align:right">
+      <button id="clear-favorites-btn" class="btn" disabled style="background:#e91e63;color:#fff">Clear all</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirmationModal" class="modal">
+  <div class="modal-content center" style="flex-direction:column;padding:28px">
+    <span class="close-btn" data-modal="confirmation">&times;</span>
+    <h3>Order placed 🎉</h3>
+    <p>Thanks! Your order will be processed shortly.</p>
+    <button id="confirm-ok-btn" class="btn place-order-btn" style="margin-top:12px">OK</button>
+  </div>
+</div>
+
+<footer class="footer">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <div><strong>Address:</strong><br>123 Fashion Street, Chennai</div>
+      <div><strong>Email:</strong><br>support@tshirtstore.com</div>
+      <div><strong>Hours:</strong><br>Mon-Sat: 10am - 8pm</div>
+    </div>
+    <p style="margin-top:14px">&copy; 2025 TextiQueen T-Shirts | All Rights Reserved</p>
+  </div>
+</footer>
+
+<script>
+const initialProducts = {
+  girls: [
+    { id: 'g1', title: 'Classic Black Tee', price: 299, oldPrice: 399, image: 'girl1.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Priya S.', rating: 5, comment: 'Amazing fit and super soft cotton!' },
+      { author: 'Ravi K.', rating: 4, comment: 'Good quality, fast shipping.' }
+    ] 
+  },
+  { id: 'g2', title: 'Red Street Style', price: 349, oldPrice: 499, image: 'girl2.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Anjali V.', rating: 5, comment: 'Love the vibrant color. A must-buy!' }
+    ] 
+  },
+  { id: 'g3', title: 'Urban White', price: 259, oldPrice: 359, image: 'girl3.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [] 
+  },
+  { id: 'g4', title: 'Navy Polo Shirt', price: 399, oldPrice: 599, image: 'wshirt4.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Vikram R.', rating: 4, comment: 'Great for casual Fridays. Very breathable.' },
+      { author: 'Sneha L.', rating: 5, comment: 'Perfect polo. Holds shape well after washing.' },
+      { author: 'Akash B.', rating: 3, comment: 'A bit tight on the shoulders, suggest sizing up.' }
+    ] 
+  },
+  { id: 'g5', title: 'Crisp White', price: 299, oldPrice: 450, image: 'gir4.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g6', title: 'Striped Comfort', price: 349, oldPrice: 550, image: 'Girl 2 Piece Outfits Toddler Girl Clothes Oversized Short Sleeve T Shirt Active Running Bike Short S.jpeg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g7', title: 'Charcoal Classic', price: 319, oldPrice: 499, image: 'shirt8.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g8', title: 'Graphic Tee', price: 399, oldPrice: 599, image: 'wshirt2.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g9', title: 'Pink Casual', price: 299, oldPrice: 499, image: 'wshirt5.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g10', title: 'Sage Green', price: 329, oldPrice: 550, image: 'wshirt3.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g11', title: 'Oversized Gray', price: 429, oldPrice: 699, image: 'girl6.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g12', title: 'Pastel Stripes', price: 359, oldPrice: 599, image: 'wshirt7.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g13', title: 'Retro Vibe', price: 400, oldPrice: 599, image: 'girl5.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g14', title: 'Neon Wear', price: 599, oldPrice: 800, image: 'girl6.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g15', title: 'BeastMode Tee', price: 299, oldPrice: 599, image: 'wshirt11.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g16', title: 'Urban Wave', price: 350, oldPrice: 400, image: 'girl7.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g17', title: 'BeastMode Tee', price: 699, oldPrice: 799, image: 'girl8.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g18', title: 'Titan Wear', price: 499, oldPrice: 699, image: 'girl9.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g19', title: 'Rebel Armor', price: 425, oldPrice: 539, image: 'girl10.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'g20', title: 'Tom & Jerry', price: 425, oldPrice: 539, image: 'girl11.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g19)
+  { id: 'g21', title: 'Night Hunter', price: 699, oldPrice: 899, image: 'girl12.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, 
+  { id: 'g22', title: 'Cartoon', price: 425, oldPrice: 539, image: 'hoodie2.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g19)
+  { id: 'g23', title: 'Quantum Hood', price: 569, oldPrice: 799, image: 'kpack.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g24)
+  { id: 'g24', title: 'Trendy Pack 3 (Prints)', price: 999, oldPrice: 1499, image: 'kpack1.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g33)
+  { id: 'g25', title: 'Mr. Right & Mrs. Always Right', price: 349, oldPrice: 550, image: 'kpack3.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g34)
+  { id: 'g26', title: 'Denim Look', price: 399, oldPrice: 899, image: 'kpack2.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g35)
+  { id: 'g27', title: 'Tom & Jerry', price: 499, oldPrice: 799, image: 'kpack4.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g36)
+  { id: 'g28', title: 'King & Queen', price: 399, oldPrice: 599, image: 'mpack1.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'g29', title: 'King & Queen', price: 399, oldPrice: 599, image: 'wshirt6.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'g30', title: 'King & Queen', price: 399, oldPrice: 599, image: 'wshirt7.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] } // Adjusted ID (was duplicate prod37)
+
+  ],
+  boys: [
+   { id: 'b1', title: 'Classic Black Tee', price: 299, oldPrice: 399, image: 'black.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Priya S.', rating: 5, comment: 'Amazing fit and super soft cotton!' },
+      { author: 'Ravi K.', rating: 4, comment: 'Good quality, fast shipping.' }
+    ] 
+  },
+  { id: 'b2', title: 'Red Street Style', price: 349, oldPrice: 499, image: 'boy1.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Anjali V.', rating: 5, comment: 'Love the vibrant color. A must-buy!' }
+    ] 
+  },
+  { id: 'b3', title: 'Urban White', price: 259, oldPrice: 359, image: 'boy2.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [] 
+  },
+  { id: 'b4', title: 'Navy Polo Shirt', price: 399, oldPrice: 599, image: 'boy3.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Vikram R.', rating: 4, comment: 'Great for casual Fridays. Very breathable.' },
+      { author: 'Sneha L.', rating: 5, comment: 'Perfect polo. Holds shape well after washing.' },
+      { author: 'Akash B.', rating: 3, comment: 'A bit tight on the shoulders, suggest sizing up.' }
+    ] 
+  },
+  { id: 'b5', title: 'Crisp White', price: 299, oldPrice: 450, image: 'boy4.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b6', title: 'Striped Comfort', price: 349, oldPrice: 550, image: 'boy5.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b7', title: 'Charcoal Classic', price: 319, oldPrice: 499, image: 'boy21.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b8', title: 'Graphic Tee', price: 399, oldPrice: 599, image: 'boy7.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b9', title: 'Pink Casual', price: 299, oldPrice: 499, image: 'boy8.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b10', title: 'Sage Green', price: 329, oldPrice: 550, image: 'boy9.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b11', title: 'Oversized Gray', price: 429, oldPrice: 699, image: 'boy10.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b12', title: 'Pastel Stripes', price: 359, oldPrice: 599, image: 'boy11.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b13', title: 'Retro Vibe', price: 400, oldPrice: 599, image: 'boy12.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b14', title: 'Neon Wear', price: 599, oldPrice: 800, image: 'boy13.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b15', title: 'BeastMode Tee', price: 299, oldPrice: 599, image: 'boy14.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b16', title: 'Urban Wave', price: 350, oldPrice: 400, image: 'boy15.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b17', title: 'BeastMode Tee', price: 699, oldPrice: 799, image: 'boy16.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b18', title: 'Titan Wear', price: 499, oldPrice: 699, image: 'boy17.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'b19', title: 'Quantum Hood', price: 569, oldPrice: 799, image: 'boy23.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g24)
+  { id: 'b20', title: 'Trendy Pack 3 (Prints)', price: 999, oldPrice: 1499, image: 'bpack.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g33)
+  { id: 'b21', title: 'Denim Look', price: 399, oldPrice: 899, image: 'boy24.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g35)
+  { id: 'b22', title: 'Graphic Pack 3', price: 499, oldPrice: 799, image: 'bpack2.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was g36)
+  { id: 'b23', title: 'Crisp Pack 3', price: 399, oldPrice: 599, image: 'bpack3.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'b24', title: 'Good Pack 3', price: 399, oldPrice: 599, image: 'bpack4.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'b25', title: 'Firestorm Shirt', price: 399, oldPrice: 599, image: 'boy22.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'b26', title: 'Rebel Spirit Shirt', price: 399, oldPrice: 599, image: 'boy20.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'b27', title: 'Gravity Defyer Tee', price: 399, oldPrice: 599, image: 'boy6.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'b28', title: 'Street Racer Tee', price: 399, oldPrice: 599, image: 'boy19.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+  { id: 'b29', title: 'Chill Zone Tee', price: 399, oldPrice: 599, image: 'boy18.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Adjusted ID (was duplicate g37)
+
+  ],
+  men: [
+      { id: 'm1', title: 'Classic Black Tee', price: 299, oldPrice: 399, image: 'shirt4.jpg', sizes: ['S', 'M', 'L', 'XL'], 
+          reviews: [
+              { author: 'Priya S.', rating: 5, comment: 'Amazing fit and super soft cotton!' },
+              { author: 'Ravi K.', rating: 5, comment: 'Good quality, fast shipping.' }
+          ] 
+        },
+        { id: 'm2', title: 'Red Street Style', price: 349, oldPrice: 499, image: 'red1.jpg', sizes: ['S', 'M', 'L', 'XL'], 
+          reviews: [
+              { author: 'Anjali V.', rating: 5, comment: 'Love the vibrant color. A must-buy!' }
+          ] 
+        },
+        { id: 'm3', title: 'Urban White Polo', price: 259, oldPrice: 359, image: 'white.jpg', sizes: ['S', 'M', 'L', 'XL'], 
+          reviews: [{ author: 'Sunil M.', rating: 5, comment: 'Excellent quality for the price.' }] 
+        },
+        { id: 'm4', title: 'Navy Stripe Polo', price: 399, oldPrice: 599, image: 'wshirt4.webp', sizes: ['S', 'M', 'L', 'XL'], 
+          reviews: [
+              { author: 'Vikram R.', rating: 5, comment: 'Great for casual Fridays. Very breathable.' }
+          ] 
+        },
+        { id: 'm5', title: 'Crisp Solid White', price: 299, oldPrice: 450, image: 'shirt21.jpg', sizes: ['S', 'M', 'L', 'XL'], 
+          reviews: [{ author: 'Kriti D.', rating: 5, comment: 'Pure white and great fabric.' }] 
+        },
+        
+        { id: 'm6', title: 'Deep Green Round Neck', price: 319, oldPrice: 420, image: 'green.jpg', sizes: ['M', 'L', 'XL'], 
+          reviews: [{ author: 'Nikhil P.', rating: 5, comment: 'Perfect deep green shade.' }] 
+        },
+        { id: 'm7', title: 'Oversized Gray', price: 360, oldPrice: 500, image: 'gray.jpg', sizes: ['S', 'M', 'L'], 
+          reviews: [{ author: 'Amit J.', rating: 5, comment: 'Excellent fit and comfortable fabric.' }]
+        },
+        { id: 'm8', title: 'Pastel Stripes', price: 279, oldPrice: 380, image: 'shirt20.jpg', sizes: ['S', 'M', 'L', 'XL', 'XXL'], 
+          reviews: [{ author: 'Tanya B.', rating: 5, comment: 'My favorite daily wear tee!' }] 
+        },
+        { id: 'm9', title: 'Printed Graphic Tee', price: 449, oldPrice: 650, image: 'shirt16.jpg', sizes: ['M', 'L'], 
+          reviews: [{ author: 'Neha B.', rating: 5, comment: 'The graphic print is sharp and high quality.' }]
+        },
+        { id: 'm10', title: 'Summer Yellow T-Shirt', price: 289, oldPrice: 390, image: 'shirt17.jpg', sizes: ['S', 'M'], 
+          reviews: [{ author: 'Rohan I.', rating: 5, comment: 'Very bright and cheerful color.' }]
+        },
+        
+        { id: 'm11', title: 'Midnight Blue Crewneck', price: 329, oldPrice: 430, image: 'shirt10.jpg', sizes: ['M', 'L', 'XL'], 
+          reviews: [{ author: 'Ajay K.', rating: 5, comment: 'Dark and rich color, very premium feel.' }]
+        },
+        { id: 'm12', title: 'Oversized Lavender Tee', price: 419, oldPrice: 600, image: 'shirt11.jpg', sizes: ['S', 'M', 'L'], 
+          reviews: [{ author: 'Diya P.', rating: 5, comment: 'Fashionable oversized fit, love the lavender.' }]
+        },
+        { id: 'm13', title: 'Black and White Stripped', price: 379, oldPrice: 480, image: 'shirt12.jpg', sizes: ['M', 'L', 'XL', 'XXL'], 
+          reviews: [{ author: 'Gaurav S.', rating: 5, comment: 'Classic stripes, looks great.' }]
+        },
+        { id: 'm14', title: 'Peach Pink Tee', price: 249, oldPrice: 350, image: 'red.jpg', sizes: ['S', 'M'], 
+          reviews: [{ author: 'Himani F.', rating: 5, comment: 'Soft color and fabric, excellent value.' }]
+        },
+        { id: 'm15', title: 'Ash Gray Henley', price: 459, oldPrice: 699, image: 'shirt6.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+         { id: 'm15', title: 'Retro Vibe', price: 459, oldPrice: 699, image: 'shirt1.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+         { id: 'm15', title: 'IronCloth', price: 459, oldPrice: 699, image: 'hoodie.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+         { id: 'm15', title: 'Night Hunter', price: 459, oldPrice: 699, image: 'hoodie1.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+         { id: 'm15', title: 'Thunder Grip', price: 459, oldPrice: 699, image: 'hoodie2.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+         { id: 'm15', title: 'Cyber Shade', price: 459, oldPrice: 699, image: 'wshirt9.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+         { id: 'm15', title: 'Quantum Hood', price: 459, oldPrice: 699, image: 'shirt18.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },///////
+          { id: 'm15', title: 'Tech Cloak', price: 459, oldPrice: 699, image: 'tshirt5.avif', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'Dark Flux', price: 459, oldPrice: 699, image: 'shirt19.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'Storm Wolf', price: 459, oldPrice: 699, image: 'tshirt4.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'Basic Pack 3 (Colors)', price: 459, oldPrice: 699, image: 'mpack.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'Solid Pack 3 (Neutral)', price: 459, oldPrice: 699, image: 'mpack4.webp', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'Essential Pack 3 (Vibrant)', price: 459, oldPrice: 699, image: 'mpack1.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'Value Pack 3 (Pastel)', price: 459, oldPrice: 699, image: 'mpack3.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+
+          { id: 'm15', title: 'Mr. Right & Mrs. Always Right', price: 459, oldPrice: 699, image: 'couple.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },  { id: 'm15', title: 'Denim Look', price: 459, oldPrice: 699, image: 'couple3.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'Tom & Jerry', price: 459, oldPrice: 699, image: 'couple5.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        },
+          { id: 'm15', title: 'King & Queen', price: 459, oldPrice: 699, image: 'couple4.jpg', sizes: ['L', 'XL'], 
+          reviews: [{ author: 'Javed Z.', rating: 5, comment: 'High-end feel, great button detail.' }]
+        }
+  ],
+  women: [
+     { id: 'w1', title: 'Classic Black Tee', price: 299, oldPrice: 399, image: 'white.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Priya S.', rating: 5, comment: 'Amazing fit and super soft cotton!' },
+      { author: 'Ravi K.', rating: 4, comment: 'Good quality, fast shipping.' }
+    ] 
+  },
+  { id: 'w2', title: 'Red Street Style', price: 349, oldPrice: 499, image: 'wshirt1.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Anjali V.', rating: 5, comment: 'Love the vibrant color. A must-buy!' }
+    ] 
+  },
+  { id: 'w3', title: 'Urban White', price: 259, oldPrice: 359, image: 'wshirt6.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [] 
+  },
+  { id: 'w4', title: 'Navy Polo Shirt', price: 399, oldPrice: 599, image: 'wshirt4.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], 
+    reviews: [
+      { author: 'Vikram R.', rating: 4, comment: 'Great for casual Fridays. Very breathable.' },
+      { author: 'Sneha L.', rating: 5, comment: 'Perfect polo. Holds shape well after washing.' },
+      { author: 'Akash B.', rating: 3, comment: 'A bit tight on the shoulders, suggest sizing up.' }
+    ] 
+  },
+  { id: 'w5', title: 'Crisp White', price: 299, oldPrice: 450, image: 'shirt7.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w6', title: 'Striped Comfort', price: 349, oldPrice: 550, image: 'shirt9.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w7', title: 'Charcoal Classic', price: 319, oldPrice: 499, image: 'shirt8.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w8', title: 'Graphic Tee', price: 399, oldPrice: 599, image: 'wshirt2.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w9', title: 'Pink Casual', price: 299, oldPrice: 499, image: 'wshirt5.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w10', title: 'Sage Green', price: 329, oldPrice: 550, image: 'wshirt3.webp', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w11', title: 'Oversized Gray', price: 429, oldPrice: 699, image: 'girl6.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w12', title: 'Pastel Stripes', price: 359, oldPrice: 599, image: 'wshirt7.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w13', title: 'Retro Vibe', price: 400, oldPrice: 599, image: 'gpack.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w14', title: 'Neon Wear', price: 599, oldPrice: 800, image: 'gpack3.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w15', title: 'BeastMode Tee', price: 299, oldPrice: 599, image: 'gpack4.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w16', title: 'Urban Wave', price: 350, oldPrice: 400, image: 'gpack1.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w17', title: 'BeastMode Tee', price: 699, oldPrice: 799, image: 'gpack5.avif', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w18', title: 'Titan Wear', price: 499, oldPrice: 699, image: 'wshirt8.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w19', title: 'Rebel Armor', price: 425, oldPrice: 539, image: 'wshirt9.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] },
+  { id: 'w20', title: 'Tom & Jerry', price: 425, oldPrice: 539, image: 'wshirt10.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Corrected ID (was w19)
+  { id: 'w21', title: 'Night Hunter', price: 699, oldPrice: 899, image: 'gpack1.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Kept ID w21
+  { id: 'w22', title: 'Cartoon', price: 425, oldPrice: 539, image: 'wshirt11.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Corrected ID (was w19)
+  { id: 'w23', title: 'Quantum Hood', price: 569, oldPrice: 799, image: 'couple4.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Corrected ID (was w24)
+  { id: 'w24', title: 'Trendy Pack 3 (Prints)', price: 999, oldPrice: 1499, image: 'couple.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Corrected ID (was w33)
+  { id: 'w25', title: 'Mr. Right & Mrs. Always Right', price: 349, oldPrice: 550, image: 'couple1.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Corrected ID (was w34)
+  { id: 'w26', title: 'Denim Look', price: 399, oldPrice: 899, image: 'couple3.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Corrected ID (was w35)
+  { id: 'w27', title: 'Tom & Jerry', price: 499, oldPrice: 799, image: 'couple5.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] }, // Corrected ID (was w36)
+  { id: 'w28', title: 'King & Queen', price: 399, oldPrice: 599, image: 'couple4.jpg', sizes: ['S', 'M', 'L', 'XL'], colors: ['Ruby Red', 'Sky Blue', 'Forest Green'], reviews: [] } // Corrected ID (was prod37)
+
+  ]
+};
+function generatePlaceholders(category, list) {
+  const currentCount = list.length;
+  const targetCount = 30; // Target is 30
+  const sizesMap = {
+    girls: ['S','M','L','XL'],
+    boys: ['M','L','XL'],
+    men: ['M','L','XL','XXL'],
+    women: ['S','M','L']
+  };
+  const basePrice = list[0] ? list[0].price : 400; 
+  const baseOldPrice = list[0] ? list[0].oldPrice : 600;
+
+  for (let i = currentCount + 1; i <= targetCount; i++) {
+    const id = category[0] + i;
+    const title = `${category.charAt(0).toUpperCase()}${category.slice(1)} Basic Tee #${i}`;
+    const price = basePrice - 20 + (i % 5) * 10;
+    const oldPrice = baseOldPrice - 30 + (i % 5) * 10;
+    const reviews = (i % 3 === 0) ? [{author:'Customer',rating:Math.floor(Math.random()*2)+3,comment:'Good enough.'}] : [];
+
+    list.push({
+      id: id,
+      title: title,
+      price: price,
+      oldPrice: oldPrice,
+      image: 'img/placeholder.jpg', // Placeholder image for new items
+      sizes: sizesMap[category],
+      reviews: reviews
+    });
+  }
+}
+
+for (const category in initialProducts) {
+  generatePlaceholders(category, initialProducts[category]);
+}
+const productsByCategory = initialProducts;
+const productGrid = document.getElementById('product-grid');
+const tabButtons = Array.from(document.querySelectorAll('.tab-btn'));
+const cartIcon = document.getElementById('cart-icon');
+const favoritesIcon = document.getElementById('favorites-icon');
+const cartCountEl = document.getElementById('cart-count');
+const favCountEl = document.getElementById('favorites-count');
+const modal = document.getElementById('productModal');
+const modalTitle = document.getElementById('modal-title');
+const modalImage = document.getElementById('modal-image');
+const modalPrice = document.getElementById('modal-price');
+const modalRating = document.getElementById('modal-rating');
+const modalSizes = document.getElementById('modal-sizes');
+const modalAddToCartBtn = document.querySelector('.add-to-cart-modal');
+const modalBuyBtn = document.querySelector('.place-order-btn');
+const reviewModal = document.getElementById('reviewModal');
+const reviewForm = document.getElementById('review-form');
+const reviewRatingInput = document.getElementById('review-rating-input');
+const reviewAuthorInput = document.getElementById('review-author');
+const reviewCommentInput = document.getElementById('review-comment');
+const cartModal = document.getElementById('cartModal');
+const cartItemsContainer = document.getElementById('cart-items-container');
+const cartTotalSpan = document.getElementById('cart-total');
+const checkoutBtn = document.getElementById('checkout-btn');
+const favoritesModal = document.getElementById('favoritesModal');
+const favoritesItemsContainer = document.getElementById('favorites-items-container');
+const clearFavoritesBtn = document.getElementById('clear-favorites-btn');
+const confirmationModal = document.getElementById('confirmationModal');
+const confirmOkBtn = document.getElementById('confirm-ok-btn');
+const addReviewBtn = document.getElementById('add-review-btn');
+const reviewCountDisplay = document.getElementById('review-count-display');
+const reviewsList = document.getElementById('reviews-list');
+let currentCategory = 'girls';
+let currentProduct = null;
+let selectedSize = null;
+let currentRating = 0;
+let cart = []; // array of {uniqueId,id,title,price,image,size,quantity}
+let favorites = []; // array of product ids
+const LS_CART = 'textiqueen_cart_v1';
+const LS_FAV = 'textiqueen_fav_v1';
+const LS_PRODUCTS = 'textiqueen_products_v1'; 
+
+function loadState() {
+  try {
+    const rawCart = localStorage.getItem(LS_CART);
+    cart = rawCart ? JSON.parse(rawCart) : [];
+    const rawFav = localStorage.getItem(LS_FAV);
+    favorites = rawFav ? JSON.parse(rawFav) : [];
+    
+    // Merge persisted reviews back into the product data structure
+    const rawProducts = localStorage.getItem(LS_PRODUCTS);
+    if (rawProducts) {
+      const persistedReviews = JSON.parse(rawProducts);
+      
+      for (const cat in productsByCategory) {
+        productsByCategory[cat] = productsByCategory[cat].map(p => {
+          if (persistedReviews[p.id] && persistedReviews[p.id].reviews) {
+            // Overwrite or append reviews from localStorage
+            p.reviews = persistedReviews[p.id].reviews;
+          }
+          return p;
+        });
+      }
+    }
+  } catch(e){ console.warn('loadState error',e) }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(LS_CART, JSON.stringify(cart));
+    localStorage.setItem(LS_FAV, JSON.stringify(favorites));
+    
+    // Persist product reviews
+    const map = {};
+    for (const cat in productsByCategory) {
+      productsByCategory[cat].forEach(p => map[p.id] = { reviews: p.reviews || [] });
+    }
+    localStorage.setItem(LS_PRODUCTS, JSON.stringify(map));
+  } catch(e){ console.warn('saveState error',e) }
+}
+function renderStars(rating, fullSpans = false) {
+  let html = '';
+  const full = Math.floor(rating);
+  const half = rating % 1 >= 0.5;
+  const empty = 5 - full - (half ? 1 : 0);
+    if (fullSpans) {
+      for (let i = 0; i < 5; i++) {
+          let className = 'far fa-star'; // default empty
+          if (i < full) {
+              className = 'fas fa-star'; // full star
+          } else if (i === full && half) {
+              className = 'fas fa-star-half-alt'; // half star
+          }
+          
+          html += `<span style="font-size:1.4rem; color:#FFD700"><i class="${className}"></i></span>`;
+      }
+  } else {
+      // Standard product card rendering (simplified HTML)
+      for (let i=0;i<full;i++) html += '<i class="fas fa-star"></i>';
+      if (half) html += '<i class="fas fa-star-half-alt"></i>';
+      for (let i=0;i<empty;i++) html += '<i class="far fa-star"></i>';
+  }
+
+  html += ` <span style="color:#666;font-size:0.95rem;margin-left:8px">(${rating>0?rating.toFixed(1):'No rating'})</span>`;
+  return html;
+}
+
+function averageRating(reviews){
+  if(!reviews || reviews.length===0) return 0;
+  const sum = reviews.reduce((s,r)=>s+(r.rating||0),0);
+  return sum / reviews.length;
+}
+function renderProducts() {
+  productGrid.innerHTML = '';
+  const list = productsByCategory[currentCategory] || [];
+  list.forEach(product => {
+    const avg = averageRating(product.reviews || []);
+    const card = document.createElement('div');
+    card.className = 'product-card';
+    card.dataset.id = product.id;
+    card.innerHTML = `
+      <div class="product-image-container"><img class="product-image" src="${product.image}" alt="${product.title}"></div>
+      <div class="product-info">
+        <div class="product-title">${product.title}</div>
+        <div class="row"><div class="price">₹${product.price}</div><div style="margin-left:auto;font-size:0.9rem;color:#999"> <del>₹${product.oldPrice}</del></div></div>
+        <div style="color:#FFD700;margin-top:6px">${renderStars(avg)}</div>
+        <div class="actions">
+          <button class="btn btn-cart" data-action="open-modal" data-id="${product.id}"><i class="fas fa-shopping-cart"></i> Select</button>
+          <button class="btn btn-fav ${favorites.includes(product.id)?'favorited':''}" data-action="toggle-fav" data-id="${product.id}"><i class="fas fa-heart"></i></button>
+        </div>
+      </div>
+    `;
+    // open product modal clicking on card (not on buttons)
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      openProductModal(product.id);
+    });
+    productGrid.appendChild(card);
+  });
+  updateFavBadge();
+  updateCartBadge();
+}
+
+/* =========================
+    Tabs
+    ========================= */
+tabButtons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    tabButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCategory = btn.dataset.cat;
+    renderProducts();
+  });
+});
+function getProductById(id) {
+  for (const cat of Object.keys(productsByCategory)){
+    const found = productsByCategory[cat].find(p=>p.id===id);
+    if(found) return found;
+  }
+  return null;
+}
+function openProductModal(id){
+  const product = getProductById(id);
+  if(!product) return;
+  currentProduct = product;
+  selectedSize = null;
+  currentRating = 0;
+
+  modalTitle.textContent = product.title;
+  modalImage.src = product.image;
+  modalPrice.innerHTML = `₹${product.price} <del style="color:#999;font-weight:400;margin-left:8px">₹${product.oldPrice}</del>`;
+  const avg = averageRating(product.reviews || []);
+  modalRating.innerHTML = renderStars(avg, true); 
+  modalSizes.innerHTML = '<h4>Sizes</h4>';
+  
+  // Clear any shake animation class before adding new size buttons
+  modalSizes.classList.remove('shake-animation');
+
+  (product.sizes || []).forEach(sz=>{
+    const b = document.createElement('button');
+    b.className = 'size-btn';
+    b.textContent = sz;
+    b.dataset.size = sz;
+    b.addEventListener('click', ()=>{
+      selectedSize = sz;
+      modalSizes.querySelectorAll('.size-btn').forEach(x=>x.classList.remove('selected'));
+      b.classList.add('selected');
+      // Remove shake animation on selection
+      modalSizes.classList.remove('shake-animation');
+      checkModalButtons();
+    });
+    modalSizes.appendChild(b);
+  });
+  renderReviews(product);
+
+  modalAddToCartBtn.dataset.id = product.id;
+  modalAddToCartBtn.disabled = true;
+  modalBuyBtn.disabled = true;
+  modalAddToCartBtn.textContent = 'Select size to add'; // Reset button text
+  showModal(modal);
+}
+function checkModalButtons(){
+  if(selectedSize){
+    modalAddToCartBtn.disabled = false;
+    modalBuyBtn.disabled = false;
+    modalAddToCartBtn.textContent = 'Add to cart';
+  } else {
+    modalAddToCartBtn.disabled = true;
+    modalBuyBtn.disabled = true;
+    modalAddToCartBtn.textContent = 'Select size to add';
+  }
+}
+function showModal(el){ el.style.display='flex' }
+function hideModal(el){ el.style.display='none' }
+function renderReviews(product){
+  const reviews = product.reviews || [];
+  reviewCountDisplay.textContent = reviews.length;
+  if(reviews.length===0){ 
+      reviewsList.innerHTML = '<p>No reviews yet. Be the first!</p>'; 
+      modalRating.innerHTML = renderStars(0, true); 
+      return; 
+  }
+  modalRating.innerHTML = renderStars(averageRating(reviews), true);
+  
+  reviewsList.innerHTML = reviews.map(r=>`
+    <div class="review-item">
+      <div><span class="review-author">${escapeHtml(r.author)}</span> <span style="color:#FFD700">${'★'.repeat(r.rating)}</span></div>
+      <p style="margin-top:6px">${escapeHtml(r.comment)}</p>
+    </div>
+  `).join('');
+}
+function escapeHtml(s=''){ return String(s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&quot;',"'":'&#039;'}[m]}) }
+function updateCartBadge(){
+  const total = cart.reduce((s,i)=>s+i.quantity,0);
+  cartCountEl.textContent = total;
+  cartCountEl.style.display = total>0?'block':'none';
+  checkoutBtn.disabled = total===0;
+}
+function updateFavBadge(){
+  favCountEl.textContent = favorites.length;
+  favCountEl.style.display = favorites.length>0?'block':'none';
+}
+
+/* add to cart (productId, size) */
+function addToCart(productId, size, qty=1, sourceImageEl=null){
+  if(!size){ 
+    // Shake animation if size is missing
+    modalSizes.classList.add('shake-animation');
+    // Remove shake after 1 second
+    setTimeout(() => modalSizes.classList.remove('shake-animation'), 1000);
+    return; 
+  }
+  const product = getProductById(productId);
+  if(!product) return;
+  const uniqueId = `${productId}-${size}`;
+  const existing = cart.find(it=>it.uniqueId===uniqueId);
+  if(existing) existing.quantity += qty;
+  else cart.push({ uniqueId, id:productId, title:product.title, price:product.price, image:product.image, size, quantity:qty });
+  saveState();
+  updateCartBadge();
+  renderCart();
+  if(sourceImageEl) flyToCart(sourceImageEl);
+  // close modal
+  hideModal(modal);
+}
+
+/* simple fly animation */
+function flyToCart(imgEl){
+  if(!imgEl) return;
+  const clone = imgEl.cloneNode(true);
+  clone.style.position='fixed';
+  const r = imgEl.getBoundingClientRect();
+  clone.style.left = r.left + 'px';
+  clone.style.top = r.top + 'px';
+  clone.style.width = r.width + 'px';
+  clone.style.height = r.height + 'px';
+  clone.style.zIndex = 9999;
+  clone.style.borderRadius = '8px';
+  clone.style.transition = 'all 900ms cubic-bezier(.5,-0.5,1,1.5)';
+  document.body.appendChild(clone);
+  const to = cartIcon.getBoundingClientRect();
+  requestAnimationFrame(()=> {
+    clone.style.left = (to.left + to.width/2 - 20) + 'px';
+    clone.style.top = (to.top + to.height/2 - 20) + 'px';
+    clone.style.width = '24px';
+    clone.style.height = '24px';
+    clone.style.opacity = '0';
+  });
+  setTimeout(()=> clone.remove(),1000);
+}
+
+/* =========================
+    Render cart modal 
+    ========================= */
+function renderCart(){
+  cartItemsContainer.innerHTML = '';
+  if(cart.length===0){ cartItemsContainer.innerHTML = '<p>Your cart is empty.</p>'; cartTotalSpan.textContent='₹0'; return; }
+  let total = 0;
+  cart.forEach(item=>{
+    total += item.price * item.quantity;
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <img class="item-image" src="${item.image}" alt="">
+      <div class="cart-item-info" onclick="viewProductFromModal('${item.id}', 'cartModal')">
+        <div style="font-weight:700">${escapeHtml(item.title)}</div>
+        <div style="color:#666;font-size:0.95rem">Size: ${item.size}</div>
+        <div style="color:#e91e63;font-weight:700;margin-top:6px">₹${item.price} x ${item.quantity} = ₹${item.price * item.quantity}</div>
+      </div>
+      <div class="cart-item-controls">
+        <button class="btn btn-minus" onclick="updateCartItem('${item.uniqueId}', -1)">-</button>
+        <input type="number" min="1" value="${item.quantity}" class="quantity-input" 
+               onchange="updateCartItemQuantityInput('${item.uniqueId}', this.value)"
+               onkeydown="return event.key !== 'e' && event.key !== '.'">
+        <button class="btn btn-plus" onclick="updateCartItem('${item.uniqueId}', 1)">+</button>
+        <button class="btn btn-remove" onclick="removeCartItem('${item.uniqueId}')" style="background:#f48fb1;color:#fff"><i class="fas fa-trash"></i></button>
+      </div>
+    `;
+    cartItemsContainer.appendChild(div);
+  });
+  cartTotalSpan.textContent = `₹${total}`;
+  updateCartBadge();
+}
+
+// Function to update quantity from +/- buttons
+function updateCartItem(uniqueId, change){
+  const item = cart.find(i=>i.uniqueId===uniqueId);
+  if(!item) return;
+  item.quantity += change;
+  if(item.quantity<=0) removeCartItem(uniqueId);
+  else { saveState(); renderCart(); }
+}
+
+// Function to update quantity from input field
+function updateCartItemQuantityInput(uniqueId, value){
+    let newQty = parseInt(value);
+    if (isNaN(newQty) || newQty < 1) {
+        newQty = 1; // Default to 1 if invalid
+    }
+    const item = cart.find(i=>i.uniqueId===uniqueId);
+    if(!item) return;
+    item.quantity = newQty;
+    saveState(); 
+    renderCart(); // Re-render to update total/badge and correct the input field value if it was invalid
+}
+
+function removeCartItem(uniqueId){
+  cart = cart.filter(i=>i.uniqueId!==uniqueId);
+  saveState();
+  renderCart();
+}
+
+/* =========================
+    Favorites logic
+    ========================= */
+function toggleFavorite(id){
+  const index = favorites.indexOf(id);
+  if(index===-1) favorites.push(id);
+  else favorites.splice(index,1);
+  saveState();
+  updateFavBadge();
+  // re-render product grid to update heart icons
+  renderProducts();
+  renderFavorites();
+}
+function renderFavorites(){
+  favoritesItemsContainer.innerHTML = '';
+  if(favorites.length===0){ 
+    favoritesItemsContainer.innerHTML = '<p>You haven\'t added any favorites yet.</p>'; 
+    clearFavoritesBtn.disabled = true;
+    return;
+  }
+  clearFavoritesBtn.disabled = false;
+  favorites.forEach(id=>{
+    const item = getProductById(id);
+    if(!item) return;
+    const div = document.createElement('div');
+    div.className = 'favorite-item';
+    div.innerHTML = `
+      <div class="favorite-item-info-area" onclick="viewProductFromModal('${item.id}', 'favoritesModal')" style="display:flex; align-items:center; gap:12px; flex: 1;">
+        <img class="item-image" src="${item.image}" alt="">
+        <div style="flex:1">
+          <div style="font-weight:700">${escapeHtml(item.title)}</div>
+          <div style="color:#e91e63;font-weight:700;margin-top:4px">₹${item.price}</div>
+        </div>
+      </div>
+      <div>
+        <button class="btn btn-cart" onclick="openProductModal('${item.id}'); hideModal(favoritesModal)"><i class="fas fa-shopping-cart"></i> View</button>
+        <button class="btn" onclick="toggleFavorite('${item.id}')" style="background:#f48fb1;color:#fff"><i class="fas fa-trash"></i></button>
+      </div>
+    `;
+    favoritesItemsContainer.appendChild(div);
+  });
+}
+function clearFavorites(){
+  favorites = [];
+  saveState();
+  updateFavBadge();
+  renderProducts(); // Update heart icons on main grid
+  renderFavorites();
+}
+
+/* NEW: Function to navigate from Cart/Favorites modal to Product modal */
+function viewProductFromModal(productId, currentModalId) {
+    const currentModal = document.getElementById(currentModalId);
+    if (currentModal) {
+        hideModal(currentModal);
+    }
+    // Re-categorize or simply open the product modal
+    openProductModal(productId);
+}
+
+/* =========================
+    Review logic
+    ========================= */
+function openReviewModal(){
+  if(!currentProduct) return;
+  document.getElementById('review-product-title').textContent = currentProduct.title;
+  currentRating = 0;
+  updateReviewStars(0);
+  reviewAuthorInput.value = '';
+  reviewCommentInput.value = '';
+  showModal(reviewModal);
+}
+function updateReviewStars(rating){
+  const stars = reviewRatingInput.querySelectorAll('span');
+  stars.forEach((s,i)=>{
+    s.innerHTML = `<i class="${i<rating?'fas':'far'} fa-star"></i>`;
+    s.style.color = i < rating ? '#FFD700' : '#ccc';
+  });
+  currentRating = rating;
+}
+reviewRatingInput.addEventListener('click', (e) => {
+  const value = e.target.closest('span')?.dataset.value;
+  if (value) updateReviewStars(parseInt(value));
+});
+reviewForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if(!currentProduct || currentRating === 0) { alert('Please select a rating'); return; }
+  
+  const newReview = {
+    author: reviewAuthorInput.value.trim() || 'Anonymous',
+    rating: currentRating,
+    comment: reviewCommentInput.value.trim()
+  };
+  
+  if(!currentProduct.reviews) currentProduct.reviews = [];
+  currentProduct.reviews.unshift(newReview); // Add to the start
+  
+  saveState();
+  renderReviews(currentProduct);
+  renderProducts(); // Update rating on the main product card
+  hideModal(reviewModal);
+});
+
+
+/* =========================
+    Event Listeners
+    ========================= */
+
+// Delegation for main grid buttons (Fav and Open Modal)
+productGrid.addEventListener('click', e => {
+  const btn = e.target.closest('button');
+  if(!btn) return;
+
+  const action = btn.dataset.action;
+  const id = btn.dataset.id;
+  
+  if(action === 'toggle-fav'){
+    toggleFavorite(id);
+  } else if(action === 'open-modal'){
+    openProductModal(id);
+  }
+});
+
+// Modal close buttons
+document.querySelectorAll('.close-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const modalType = btn.dataset.modal;
+    if(modalType === 'product') hideModal(modal);
+    else if(modalType === 'review') hideModal(reviewModal);
+    else if(modalType === 'cart') hideModal(cartModal);
+    else if(modalType === 'favorites') hideModal(favoritesModal);
+    else if(modalType === 'confirmation') hideModal(confirmationModal);
+  });
+});
+
+// Header action icons
+cartIcon.addEventListener('click', () => { showModal(cartModal); renderCart(); });
+favoritesIcon.addEventListener('click', () => { showModal(favoritesModal); renderFavorites(); });
+
+// Modal action buttons
+modalAddToCartBtn.addEventListener('click', e => { 
+  const imageEl = modalImage; // Element to start the fly animation from
+  // If size is not selected, addToCart will trigger the shake
+  addToCart(e.target.dataset.id, selectedSize, 1, imageEl); 
+});
+modalBuyBtn.addEventListener('click', () => {
+  if(!currentProduct || !selectedSize) {
+     // Trigger shake if size is not selected
+    modalSizes.classList.add('shake-animation');
+    setTimeout(() => modalSizes.classList.remove('shake-animation'), 1000);
+    return;
+  }
+  // Clear cart and add only the current item
+  cart = [];
+  addToCart(currentProduct.id, selectedSize, 1);
+  hideModal(modal);
+  // Redirect to tshirt2.html after 'buying now'
+  window.location.href = 'tshirt2.html';
+});
+
+// Checkout button now redirects
+checkoutBtn.addEventListener('click', () => {
+  if (cart.length > 0) {
+    // Optionally save the cart state one last time before clearing
+    saveState();
+    // Clear cart in memory before redirect (if you don't want it to persist on the next page)
+    localStorage.removeItem(LS_CART); 
+    // Redirect to the external checkout page
+    window.location.href = 'tshirt2.html';
+  }
+});
+
+confirmOkBtn.addEventListener('click', () => {
+  hideModal(confirmationModal);
+});
+addReviewBtn.addEventListener('click', openReviewModal);
+clearFavoritesBtn.addEventListener('click', clearFavorites);
+
+// Initial setup
+loadState();
+renderProducts();
+
+</script>
+</body>
+</html>

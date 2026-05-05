@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mens Wear| E-commerce Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* --- Global & Base CSS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #fff;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- MODIFIED: Header/Navbar CSS --- */
+        header {
+            /* Changed background to white for a cleaner look */
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            /* Lighter shadow */
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            /* Slightly larger logo */
+            font-weight: 800;
+            color: #ff6600;
+            /* Added a subtle line effect */
+            border-bottom: 3px solid transparent;
+            transition: border-bottom 0.3s;
+        }
+
+        .logo:hover {
+            border-bottom: 3px solid #ff6600;
+        }
+
+        .navbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .navbar button {
+            background: none;
+            /* Removed solid background */
+            color: #333;
+            /* Darker text */
+            border: 2px solid #ddd;
+            /* Light border */
+            padding: 8px 12px;
+            border-radius: 20px;
+            /* Pill shape */
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .navbar button:hover {
+            background: #ff6600;
+            color: #fff;
+            border-color: #ff6600;
+            transform: translateY(-1px);
+            /* Slight lift */
+        }
+
+        /* --- Main Content & Grid CSS --- */
+        main {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 10px 30px 30px;
+            flex: 1;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin: -5px 0 15px;
+            color: #111;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            align-items: stretch;
+        }
+
+        .product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 270px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+            transition: all 0.3s;
+        }
+
+        .fav-btn.active {
+            color: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .product-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #ff6600;
+        }
+
+        .sizes {
+            margin: 8px 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .size-btn {
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .size-btn.active {
+            background: #ff6600;
+            color: #fff;
+            border-color: #ff6600;
+        }
+
+        .add-btn {
+            background: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .add-btn:hover {
+            background: #ff4500;
+        }
+
+        .reviews {
+            font-size: 0.85rem;
+            color: #ff9900;
+            margin-bottom: 8px;
+        }
+
+        /* --- Shake Animation CSS --- */
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(+2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(+4px, 0, 0);
+            }
+        }
+
+        .product-card.shake {
+            animation: shake 0.6s cubic-bezier(.36, .07, .19, .97) both;
+            border: 2px solid #ff0000;
+        }
+
+
+        /* --- Side Panel (Desktop) & Modal (Mobile) CSS --- */
+        .side-panel {
+            display: none;
+            flex: 0;
+            transition: all 0.3s ease-in-out;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+
+        .side-panel.active-desktop {
+            display: block;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .side-panel h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .side-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.95rem;
+        }
+
+        .side-item button {
+            background: #ff4500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 3px 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.3s;
+        }
+
+        .side-item button:hover {
+            background: #ff6600;
+        }
+
+        .total {
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .place-btn {
+            background: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .place-btn:hover {
+            background: #ff4500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-size: 0.9rem;
+            background: #fff;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            max-height: 85%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media(min-width: 1001px) {
+            main:has(.side-panel.active-desktop) .container {
+                flex: 3;
+            }
+        }
+
+        @media(max-width: 600px) {
+            main {
+                padding: 10px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .product-card img {
+                height: 180px;
+            }
+
+            .product-info {
+                padding: 10px 5px;
+            }
+        }
+
+
+        /* --- Toast Notification CSS --- */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.5s, transform 0.5s;
+            transform: translateX(100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast.cart-success {
+            background-color: #4CAF50;
+        }
+
+        .toast.fav-success {
+            background-color: #ff6600;
+        }
+        /* ---------- Footer ---------- */
+.footer{background:#222;color:#fff;padding:18px;text-align:center;margin-top:30px}
+.footer a{color:#f48fb1;text-decoration:none}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Mens Wear</div>
+        <nav class="navbar">
+            <button onclick="openFavorites()">❤️ Favorites</button>
+            <button onclick="openCart()">🛒 Cart</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="Textiqueen.html" style="text-decoration: none;"><i class="fa fa-arrow-left"
+                    style="font-size: xx-large;margin-left: 50px;margin-top: 30px; color: #e91e63;"></i></a>
+            <h1>Explore Our Premium Normal Wear</h1>
+            <div class="product-grid" id="productGrid"></div>
+        </div>
+
+        <div class="side-panel" id="favoritesPanel">
+            <h2>Your Favorites ❤️</h2>
+            <div id="favoriteItems">No favorites yet.</div>
+        </div>
+
+        <div class="side-panel" id="cartPanel">
+            <h2>Your Cart</h2>
+            <div id="cartItems">Cart is empty.</div>
+            <div class="total">Total: ₹<span id="cartTotal">0</span></div>
+            <button class="place-btn" id="placeOrder" onclick="placeOrder()">Place Order</button>
+        </div>
+    </main>
+
+    <div class="modal" id="favoritesModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeFavorites(true)">&times;</span>
+            <h2>Your Favorites ❤️</h2>
+            <div id="favoriteItemsModal">No favorites yet.</div>
+        </div>
+    </div>
+
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCart(true)">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cartItemsModal">Cart is empty.</div>
+            <div class="total">Total: ₹<span id="cartTotalModal">0</span></div>
+            <button class="place-btn" onclick="placeOrder()">Place Order</button>
+        </div>
+    </div>
+
+<footer class="footer">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <div><strong>Address:</strong><br>123 Fashion Street, Chennai</div>
+      <div><strong>Email:</strong><br>support@tshirtstore.com</div>
+      <div><strong>Hours:</strong><br>Mon-Sat: 10am - 8pm</div>
+    </div>
+    <p style="margin-top:14px">&copy; 2025 TextiQueen T-Shirts | All Rights Reserved</p>
+  </div>
+</footer>
+    <div id="toast-container"></div>
+
+    <script>
+        const products = [
+            { id: 1, name: "Classic Black", price: 499, img: "luxary.jpg", sizes: ["S", "M", "L", "XL"], reviews: 4.5 },
+            { id: 2, name: "Streetwear Gray", price: 399, img: "luxary5.jpg", sizes: ["M", "L", "XL"], reviews: 4.0 },
+            { id: 3, name: "Red Urban ", price: 599, img: "luxary7.jpg", sizes: ["S", "M", "L"], reviews: 5.0 },
+            { id: 4, name: "Oversized White", price: 699, img: "luxary3.jpg", sizes: ["L", "XL"], reviews: 4.2 },
+            { id: 5, name: "Minimal Beige", price: 299, img: "luxary9.jpg", sizes: ["S", "M"], reviews: 3.9 },
+            { id: 6, name: "Charcoal Zip", price: 799, img: "luxary4.jpg", sizes: ["M", "L", "XL"], reviews: 4.7 },
+            { id: 7, name: "Midnight Vibe", price: 499, img: "luxary6.jpg", sizes: ["M", "L", "XL"], reviews: 4.6 },
+            { id: 8, name: "StreetSoul", price: 699, img: "luxary1.jpg", sizes: ["S", "M", "L", "XL"], reviews: 4.3 },
+            { id: 9, name: "FrostWave", price: 599, img: "luxary10.jpg", sizes: ["S", "M", "L", "XL"], reviews: 4.5 },
+            { id: 10, name: "CozyCloud", price: 599, img: "luxary8.jpg", sizes: ["S", "M", "L"], reviews: 4.8 }
+        ];
+
+
+        const productGrid = document.getElementById("productGrid");
+        const cartItems = document.getElementById("cartItems");
+        const cartTotal = document.getElementById("cartTotal");
+        const favoriteItems = document.getElementById("favoriteItems");
+        const favoritesPanel = document.getElementById("favoritesPanel");
+        const cartPanel = document.getElementById("cartPanel");
+        const cartModal = document.getElementById("cartModal");
+        const favoritesModal = document.getElementById("favoritesModal");
+
+        let cart = [];
+        let favorites = [];
+
+        function isDesktopView() {
+            return window.matchMedia("(min-width: 1001px)").matches;
+        }
+
+        function showToast(message, type = 'default') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.classList.add('toast', `${type}-success`);
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => {
+                    toast.remove();
+                }, { once: true });
+            }, 3000);
+        }
+
+        function renderProducts() {
+            productGrid.innerHTML = "";
+            products.forEach(p => {
+                const card = document.createElement("div");
+                card.classList.add("product-card");
+                card.setAttribute('data-id', p.id);
+                const isFav = favorites.includes(p.id);
+                const reviewStars = "★".repeat(Math.floor(p.reviews)) + "☆".repeat(5 - Math.floor(p.reviews));
+                card.innerHTML = `
+            <button class="fav-btn ${isFav ? "active" : ""}" onclick="toggleFav(${p.id},this)">❤</button>
+            <img src="${p.img}" alt="${p.name}">
+            <div class="product-info">
+                <h3>${p.name}</h3>
+                <div class="reviews">${reviewStars} (${p.reviews})</div>
+                <p class="price">₹${p.price}</p>
+                <div class="sizes" id="sizes-${p.id}">
+                    ${p.sizes.map(s => `<button class="size-btn" onclick="selectSize(this)">${s}</button>`).join('')}
+                </div>
+                <button class="add-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>`;
+                productGrid.appendChild(card);
+            });
+        }
+
+        function toggleFav(id, btn) {
+            const prod = products.find(p => p.id === id);
+            const added = !favorites.includes(id);
+
+            if (added) {
+                favorites.push(id);
+                btn.classList.add("active");
+                showToast(`❤️ Added ${prod.name} to Favorites`, 'fav');
+            } else {
+                favorites = favorites.filter(f => f !== id);
+                btn.classList.remove("active");
+                showToast(`💔 Removed ${prod.name} from Favorites`, 'fav');
+            }
+
+            renderFavorites();
+
+            if (isDesktopView() && favorites.length > 0) {
+                openFavorites(false);
+            } else if (!isDesktopView()) {
+                openFavorites(true);
+            }
+        }
+
+        function renderFavorites() {
+            favoriteItems.innerHTML = "";
+            const favModal = document.getElementById("favoriteItemsModal");
+            favModal.innerHTML = "";
+            if (favorites.length === 0) {
+                favoriteItems.textContent = "No favorites yet.";
+                favModal.textContent = "No favorites yet.";
+                if (isDesktopView()) {
+                    closeFavorites(false);
+                }
+                return;
+            }
+            favorites.forEach(id => {
+                const prod = products.find(p => p.id === id);
+                const div = document.createElement("div");
+                div.classList.add("side-item");
+                div.innerHTML = `${prod.name} - ₹${prod.price} <button onclick="removeFavorite(${id})">Remove</button>`;
+                favoriteItems.appendChild(div);
+
+                const modalDiv = div.cloneNode(true);
+                modalDiv.querySelector('button').setAttribute('onclick', `removeFavorite(${id})`);
+                favModal.appendChild(modalDiv);
+            });
+        }
+
+        function removeFavorite(id) {
+            const prod = products.find(p => p.id === id);
+            favorites = favorites.filter(f => f !== id);
+            showToast(`💔 Removed ${prod.name} from Favorites`, 'fav');
+            renderFavorites();
+            renderProducts();
+        }
+
+        function selectSize(btn) {
+            const siblings = btn.parentNode.querySelectorAll(".size-btn");
+            siblings.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+        }
+
+        function addToCart(id) {
+            const sizeContainer = document.querySelector(`#sizes-${id}`);
+            const selectedSize = sizeContainer.querySelector(".size-btn.active");
+
+            if (!selectedSize) {
+                const card = document.querySelector(`.product-card[data-id="${id}"]`);
+                if (card) {
+                    card.classList.add('shake');
+                    card.addEventListener('animationend', () => {
+                        card.classList.remove('shake');
+                    }, { once: true });
+                }
+                showToast(`⚠️ Please select a size!`, 'default');
+                return;
+            }
+
+            const item = products.find(p => p.id === id);
+            const size = selectedSize.textContent;
+            const existing = cart.find(x => x.id === id && x.size === size);
+
+            if (existing) {
+                existing.qty++;
+                showToast(`🛒 Increased quantity of ${item.name} (Size: ${size})`, 'cart');
+            } else {
+                cart.push({ ...item, qty: 1, size: size });
+                showToast(`✅ Added ${item.name} (Size: ${size}) to Cart`, 'cart');
+            }
+
+            updateCart();
+
+            if (isDesktopView()) {
+                openCart(false);
+            } else {
+                openCart(true);
+            }
+        }
+
+        function updateCart() {
+            const cartModalItems = document.getElementById("cartItemsModal");
+            const cartModalTotal = document.getElementById("cartTotalModal");
+            cartItems.innerHTML = "";
+            cartModalItems.innerHTML = "";
+            let total = 0;
+            if (cart.length === 0) {
+                cartItems.textContent = "Cart is empty.";
+                cartModalItems.textContent = "Cart is empty.";
+                cartTotal.textContent = "0";
+                cartModalTotal.textContent = "0";
+                if (isDesktopView()) {
+                    closeCart(false);
+                }
+                return;
+            }
+            cart.forEach((item, index) => {
+                total += item.price * item.qty;
+                const div = document.createElement("div");
+                div.classList.add("side-item");
+                div.innerHTML = `${item.name} (Size: ${item.size}) × ${item.qty} = ₹${item.price * item.qty}
+            <button onclick="removeCart(${index})">Remove</button>`;
+                cartItems.appendChild(div);
+
+                const modalDiv = div.cloneNode(true);
+                modalDiv.querySelector('button').setAttribute('onclick', `removeCart(${index})`);
+                cartModalItems.appendChild(modalDiv);
+            });
+            cartTotal.textContent = total;
+            cartModalTotal.textContent = total;
+        }
+
+        // --- MODIFIED FUNCTION FOR REDIRECTION ---
+        function placeOrder() {
+            if (cart.length === 0) {
+                alert("Your cart is empty! Please add items before placing an order.");
+                return;
+            }
+            // Instead of an alert, we redirect the user to tshirt2.html
+            window.location.href = 'tshirt2.html';
+        }
+
+        function removeCart(index) {
+            const removedItem = cart[index];
+            showToast(`➖ Removed 1x ${removedItem.name} (Size: ${removedItem.size}) from Cart`, 'cart');
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        /* ---- Panel/Modal Controls ---- */
+        function openFavorites(isModal) {
+            if (isModal || !isDesktopView()) {
+                favoritesModal.style.display = "flex";
+            } else {
+                closeCart(false);
+                favoritesPanel.classList.add("active-desktop");
+            }
+        }
+
+        function closeFavorites(isModal) {
+            if (isModal || !isDesktopView()) {
+                favoritesModal.style.display = "none";
+            } else {
+                favoritesPanel.classList.remove("active-desktop");
+            }
+        }
+
+        function openCart(isModal) {
+            if (isModal || !isDesktopView()) {
+                cartModal.style.display = "flex";
+            } else {
+                closeFavorites(false);
+                cartPanel.classList.add("active-desktop");
+            }
+        }
+
+        function closeCart(isModal) {
+            if (isModal || !isDesktopView()) {
+                cartModal.style.display = "none";
+            } else {
+                cartPanel.classList.remove("active-desktop");
+            }
+        }
+
+        renderProducts();
+    </script>
+</body>
+
+</html>

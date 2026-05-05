@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce Project - Collections</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    body {
+            font-family: 'Segoe UI', sans-serif;
+      background: #f8f9fa;
+      margin: 0px;
+      padding: 0px;
+    }
+    
+/* --- COPY AND PASTE ALL YOUR <style> CONTENT HERE --- */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            margin: 0px;
+            padding-top: 70px; /* Added padding to prevent fixed navbar from covering content */
+        }
+        
+        /* Base Navbar and Branding */
+        .navbar {
+            background: linear-gradient(90deg, #1f1c2c, #928dab);
+            padding: 0.8rem 1rem;
+        }
+        .navbar-brand {
+            font-size: 2.0rem; 
+            font-weight: 900;
+            letter-spacing: 1px;
+            display: inline-block;
+            transition: 0.3s ease;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.4), 
+                         0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 8px #FFD700, 
+                         0 0 15px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Navigation Links */
+        .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            margin: 0 0.6rem;
+            transition: 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #f0a500 !important;
+            transform: scale(1.05);
+        }
+        .nav-link.active {
+            color: #f0a500 !important;
+            text-shadow: 0 0 15px #f0a500;
+            animation: blinkGlow 1s infinite alternate; 
+        }
+        @keyframes blinkGlow {
+            0%   { text-shadow: 0 0 8px #f0a500; opacity: 1; }
+            100% { text-shadow: 0 0 25px #f0a500; opacity: 0.9; }
+        }
+        .navbar-nav .nav-item .nav-link i {
+            margin-right: 6px;
+            transition: 0.3s ease;
+        }
+        .navbar-nav .nav-item:hover i {
+            transform: scale(1.3) rotate(10deg);
+        }
+
+        /* Specific Icon Hover Colors */
+        #favorites-link:hover i {
+            color: #ff4d6d;
+            text-shadow: 0 0 10px #ff4d6d;
+        }
+        #cart-link:hover i {
+            color: #00eaff;
+            text-shadow: 0 0 10px #00eaff;
+        }
+
+        /* Mobile Responsiveness (max-width: 991px) */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: #1f1c2c;
+                padding: 20px;
+                border-radius: 14px;
+                margin-top: 10px;
+                animation: slideDown 0.4s ease;
+            }
+            @keyframes slideDown {
+                from { transform: translateY(-15px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            .navbar-nav .nav-item {
+                width: 100%;
+                margin-bottom: 12px;
+            }
+            .navbar-nav .nav-link {
+                background: rgba(255,255,255,0.08);
+                padding: 12px;
+                border-radius: 12px;
+                text-align: center;
+                font-size: 1.05rem;
+            }
+            .navbar-nav .nav-link:hover {
+                transform: scale(1.02);
+            }
+            .right-icons {
+                margin-top: 20px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255,255,255,0.2);
+            }
+            .right-icons .nav-link {
+                font-size: 1.05rem;
+                padding: 12px;
+            }
+        }
+        /* Scroll animation base */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .scroll-animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .scroll-delay-1 { transition-delay: 0.2s; }
+        .scroll-delay-2 { transition-delay: 0.4s; }
+        .scroll-delay-3 { transition-delay: 0.6s; }
+        .scroll-delay-4 { transition-delay: 0.8s; }
+
+        /* Sticky Navbar */
+        .top-navbar-container {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        /* Navigation bar */
+        .nav-bar {
+            background: #fff;
+            padding: 10px 20px;
+            display: flex;
+            gap: 25px;
+            border-bottom: 1px solid #ddd;
+            font-weight: 500;
+            font-size: 14px;
+            flex-wrap: wrap;
+        }
+
+        .nav-bar a {
+            text-decoration: none;
+            color: #333;
+        }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin: 40px 0 20px;
+      color: #333;
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    #searchInput {
+      width: 100%;
+      max-width: 500px;
+      padding: 10px 20px;
+      border-radius: 25px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    /* 🔥 Trending Collection Cards (3D Cards) */
+    .collec {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .card-wrap { perspective: 1000px; cursor: pointer; }
+    .card {
+      width: 260px; height: 340px;
+      border-radius: 15px; overflow: hidden;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0.8;
+      transition: transform 0.6s ease, opacity 0.6s ease;
+    }
+
+    .card-info {
+      position: absolute; bottom: 0; width: 100%;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+      color: #fff; text-align: left;
+      transform: translateY(30%);
+      transition: transform 0.5s ease;
+    }
+
+    .card-info h1 { font-size: 22px; margin-bottom: 8px; }
+    .card-info p { font-size: 14px; opacity: 0; transition: opacity 0.5s ease; }
+
+    .card-wrap:hover .card {
+      transform: rotateY(12deg) rotateX(6deg) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+    .card-wrap:hover .card-bg { transform: scale(1.1); opacity: 1; }
+    .card-wrap:hover .card-info { transform: translateY(0); }
+    .card-wrap:hover .card-info p { opacity: 1; }
+
+    
+    
+
+    nav { text-align: center; margin: 20px; }
+    .btn {
+      background: #d10024; color: white;
+      padding: 12px 20px; border: none;
+      border-radius: 8px; cursor: pointer;
+      font-size: 16px; margin: 5px;
+    }
+    .btn:hover { background: #a3001a;color: white; }
+ /* New Arrivals container */
+    .conta {
+      display: none;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px; padding: 20px;
+    }
+    .conta .card {
+      width: 100%;
+      height: auto;
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: center;
+      position: relative;
+    }
+    .conta .card a {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      padding: 10px 0;
+    }
+    .conta .card:hover { transform: scale(1.05); }
+    
+    /* >>> THIS IS WHERE THE CHANGE IS APPLIED <<< */
+    .conta .card img { 
+      width: 100%; 
+      height: 250px; /* Slightly reduced height */
+      object-fit: cover; /* CHANGED: Fills the container, removes whitespace */
+      padding: 5px; /* Reduced padding */
+      border-radius: 10px;
+    }
+    
+    .conta .card h3 { margin: 10px 0; font-size: 18px; }
+    .conta .card p { color: #555; margin-bottom: 10px; }
+    .price { color: #d10024; font-weight: bold; font-size: 1.1em; }
+
+    .banner-img {
+      width: 100%; 
+      height: auto; 
+      max-height: 400px;
+      object-fit: cover;
+    }
+
+    /* Media Queries */
+    @media (max-width: 1100px) { 
+        .products { 
+            grid-template-columns: repeat(3, 1fr); 
+        } 
+    }
+
+    @media (max-width: 768px) { 
+        .products { 
+            grid-template-columns: repeat(2, 1fr); 
+        } 
+        .conta { 
+            grid-template-columns: repeat(2, 1fr); 
+        }
+    }
+
+    @media (max-width: 500px) { 
+        .products { 
+            grid-template-columns: repeat(2, 1fr); 
+        }
+        .conta { 
+            grid-template-columns: repeat(2, 1fr); 
+        }
+        /* Removed flex-direction: column from .navbar .container to keep brand/toggler horizontal */
+    }
+     /* --- Header/Navbar CSS --- */
+        header {
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ff6600;
+            border-bottom: 3px solid transparent;
+            transition: border-bottom 0.3s;
+        }
+
+        .logo:hover {
+            border-bottom: 3px solid #ff6600;
+        }
+
+        .navbarr {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .navbarr button {
+            background: none;
+            color: #333;
+            border: 2px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .navbarr button:hover {
+            background: #ff6600;
+            color: #fff;
+            border-color: #ff6600;
+            transform: translateY(-1px);
+        }
+
+        /* --- Main Content & Grid CSS --- */
+        main {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 10px 30px 30px;
+            flex: 1;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin: -5px 0 15px;
+            color: #111;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            align-items: stretch;
+        }
+
+        .product-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 270px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .fav-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .fav-btn.active {
+            color: #ff0000;
+            border-color: #ff0000;
+        }
+
+        .product-info {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .price {
+            font-weight: 700;
+            color: #ff6600;
+        }
+
+        .sizes {
+            margin: 8px 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .size-btn {
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .size-btn.active {
+            background: #ff6600;
+            color: #fff;
+            border-color: #ff6600;
+        }
+
+        .add-btn {
+            background: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .add-btn:hover {
+            background: #ff4500;
+        }
+
+        .reviews {
+            font-size: 0.85rem;
+            color: #ff9900;
+            margin-bottom: 8px;
+        }
+
+        /* --- Panel & Modal Base CSS --- */
+        .side-panel {
+            display: none;
+            flex: 0;
+            transition: all 0.3s ease-in-out;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 90px;
+            height: fit-content;
+        }
+
+        .side-panel.active-desktop {
+            display: block;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        /* NEW: Relative positioning for close button */
+        .side-panel h2 {
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .panel-header {
+            position: relative;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* NEW: Close button style for side panels (desktop) */
+        .close-panel-btn {
+            position: absolute;
+            top: 5px;
+            right: 0px;
+            font-size: 22px;
+            color: #333;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .close-panel-btn:hover {
+            color: #ff0000;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            max-height: 85%;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 20px;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        
+        .close-btn:hover {
+            color: #ff0000;
+        }
+        
+        /* --- Size Selector Modal Specific Styles --- */
+        #sizeSelectorModal .modal-content {
+            max-width: 350px;
+            text-align: center;
+        }
+
+        #sizeSelectorModal h3 {
+            margin-top: 0;
+            color: #ff6600;
+        }
+
+        #sizeSelectorModal img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        #sizeOptions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        #sizeOptions .size-btn {
+            font-size: 1rem;
+            padding: 8px 15px;
+            min-width: 50px;
+        }
+
+        #confirmSizeBtn {
+            margin-top: 15px;
+            width: 100%;
+            background: #4CAF50;
+            color: white;
+        }
+        
+        #confirmSizeBtn:hover {
+            background: #45a049;
+        }
+
+
+        /* --- Cart Item Details & Controls --- */
+        .side-item {
+            display: flex;
+            flex-direction: column;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.95rem;
+        }
+
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .quantity-controls button {
+            background: #ff6600;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: background 0.2s;
+        }
+
+        .quantity-controls button:hover {
+            background: #ff4500;
+        }
+
+        /* --- Favorite Item Controls --- */
+        .fav-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+            justify-content: flex-end;
+        }
+
+        .fav-controls .move-to-cart-btn {
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .fav-controls .move-to-cart-btn:hover {
+            background: #45a049;
+        }
+
+        .fav-controls .remove-btn {
+            background: none;
+            color: #ff0000;
+            border: 1px solid #ff0000;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .fav-controls .remove-btn:hover {
+            background: #ff0000;
+            color: #fff;
+        }
+
+        .remove-all-btn {
+            background: none !important;
+            color: #ff0000 !important;
+            border: none !important;
+            font-size: 1rem;
+            padding: 0;
+            margin-left: 10px;
+        }
+
+        .remove-all-btn:hover {
+            text-decoration: underline;
+        }
+
+        .total {
+            font-weight: bold;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 2px solid #ff6600;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+
+        .place-btn {
+            background: #ff6600;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .place-btn:hover {
+            background: #ff4500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #555;
+            font-size: 0.9rem;
+            background: #fff;
+            box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media(min-width: 1001px) {
+            main:has(.side-panel.active-desktop) .container {
+                flex: 3;
+            }
+        }
+
+        @media(max-width: 600px) {
+            main {
+                padding: 10px;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .product-card img {
+                height: 180px;
+            }
+
+            .product-info {
+                padding: 10px 5px;
+            }
+        }
+
+
+        /* --- Toast Notification CSS --- */
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.5s, transform 0.5s;
+            transform: translateX(100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast.cart-success {
+            background-color: #4CAF50;
+        }
+
+        .toast.fav-success {
+            background-color: #ff6600;
+        }
+        
+        .toast.error {
+            background-color: #f44336;
+        }
+           /* NEW: Search Bar Style */
+        .search-contain {
+            flex-grow: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
+
+        .search-contain input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        .search-contain input:focus {
+            border-color: #ff6600;
+            box-shadow: 0 0 8px rgba(255, 102, 0, 0.2);
+            outline: none;
+        }
+        /* Styles for screens 600px wide and smaller (Mobile) */
+@media (max-width: 480px) {
+    .no-results {
+        width: 90%; /* Wider box on narrow screens */
+        padding: 20px;
+    }
+    
+    .no-results i {
+        font-size: 30px; 
+    }
+
+    .no-results p {
+        font-size: 18px;
+    }
+
+    .no-results small {
+        font-size: 14px;
+    }
+}
+/* ---------- Footer ---------- */
+.footer{background:#222;color:#fff;padding:18px;text-align:center;margin-top:30px}
+.footer a{color:#f48fb1;text-decoration:none}
+  </style>
+</head>
+<body>
+ <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow" style="margin: 0px;">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Textiqueen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="Textiqueen.html" class="nav-link"> 
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="collection.html" class="nav-link active">
+                        <i class="fas fa-tshirt"></i> Collection
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tshirt2.html" class="nav-link">
+                        <i class="fas fa-shopping-cart"></i> Order Details
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="contactus.html" class="nav-link">
+                        <i class="fas fa-envelope"></i> Contact Us
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto right-icons">
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="favorites-link" onclick="openFavorites(); return false;">
+                        <i class="fas fa-heart"></i> Favorites
+                    </a>
+                </li>
+               <li class="nav-item">
+    <a href="tshirt2.html" class="nav-link" id="cart-link">
+        <i class="fas fa-shopping-bag"></i> Cart
+    </a>
+</li>
+
+                <li class="nav-item">
+                    <a href="Tshirt.html" class="nav-link">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="logout.html" class="nav-link"> <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+  <h1 class="title" style="margin-top: 100px;">🔥 Our Trending Collections 🔥</h1>
+
+  <div id="app" class="collec">
+    <card data-image="https://i.pinimg.com/1200x/a8/37/14/a8371488d647225bedc707a41f0c363f.jpg">
+      <h1 slot="header">Soft Tee</h1>
+      <p slot="content">A soft, comfortable tee for all-day wear</p>
+    </card>
+    <card data-image="https://i.pinimg.com/1200x/b2/ad/4a/b2ad4a95806140ec529dfdbe9a06845a.jpg">
+      <h1 slot="header">Graphic</h1>
+      <p slot="content">Trendy prints for fashion-forward people</p>
+    </card>
+    <card data-image="https://i.pinimg.com/736x/d5/8c/3e/d58c3e05b3844ee7e04a16230584d357.jpg">
+      <h1 slot="header">Streetwear</h1>
+      <p slot="content">Minimal design with a bold attitude</p>
+    </card>
+    <card data-image="https://i.pinimg.com/736x/b1/e5/ba/b1e5ba7775c8f9660e3a6f50b6824948.jpg">
+      <h1 slot="header">Retro Vibe</h1>
+      <p slot="content">Fun, colorful designs for youth</p>
+    </card>
+  </div>
+
+  
+  <img src="ben.avif" class="banner-img" alt="Banner Image">
+    <nav>
+    <button class="btn" onclick="toggleNewArrivals()">New Arrivals</button>
+  </nav>
+
+  <div class="conta" id="newArrivals">
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="ben1.avif" alt="Ben 10: Diamondhead T-shirt">
+            <h3>Ben 10: Diamondhead</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L, XL</p>
+            <p class="price">₹1049</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="new.jpg" alt="Ben 10: Diamondhead T-shirt">
+            <h3>Tiger</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L, XL</p>
+            <p class="price">₹849</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="new1.jpg" alt="Ben 10: Diamondhead T-shirt">
+            <h3>Shinchan</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L, XL</p>
+            <p class="price">₹450</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="new2.jpg" alt="Ben 10: Diamondhead T-shirt">
+            <h3>Panda</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L, XL</p>
+            <p class="price">₹650</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="new3.jpg" alt="Ben 10: Diamondhead T-shirt">
+            <h3>Yellow Bean</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L, XL</p>
+            <p class="price">₹320</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="new4.jpg" alt="Ben 10: Diamondhead T-shirt">
+            <h3>Holding You</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L, XL</p>
+            <p class="price">₹440</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="new5.jpg" alt="Ben 10: Diamondhead T-shirt">
+            <h3>Blue Queen</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L, XL</p>
+            <p class="price">₹799</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="https://i.pinimg.com/1200x/47/44/1a/47441adc436831c9cfa0cda25f30c70b.jpg" alt="Harry Potter T-shirt">
+            <h3>Harry Potter: The Silent Vow</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i> (5.0)
+            </p>
+            <p class="size-info">Sizes: M, L, XL</p>
+            <p class="price">₹1599</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="https://i.pinimg.com/736x/a1/64/60/a164604e426bd8587f0f419115885d1c.jpg" alt="Kung Fu Panda T-shirt">
+            <h3>Kung Fu Panda: Chi Master</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i><i class="fa fa-star-o"></i> (3.5)
+            </p>
+            <p class="size-info">Sizes: S, L, XL</p>
+            <p class="price">₹1199</p>
+        </a>
+    </div>
+    <div class="card">
+        <a href="tshirt2.html">
+            <img src="https://i.pinimg.com/1200x/20/45/e9/2045e965f2c29ef9957537e4a2dbca58.jpg" alt="Iron Man T-shirt">
+            <h3>Iron Man: Mark I</h3>
+            <p class="rating">
+                <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-stroke"></i> (4.5)
+            </p>
+            <p class="size-info">Sizes: S, M, L</p>
+            <p class="price">₹1199</p>
+        </a>
+    </div>
+    
+  </div>
+
+      
+ 
+ <header>
+        <div class="logo">Hoodie Store</div>
+        <nav class="navbarr">
+            <button onclick="openFavorites()">❤️ Favorites</button>
+            <button onclick="openCart()">🛒 Cart</button>
+        </nav>
+    </header>
+
+  <center>
+      <div class="search-contain" style="margin-top: 30px;">
+                <input type="text" id="searchInput" placeholder="Search products by name or type..." oninput="filterProducts(this.value)">
+            </div></center>
+    <main>
+   <div class="container">
+    <div class="d-flex align-items-center justify-content-between" style="margin-top: 30px;">
+        <a href="Textiqueen.html" style="text-decoration: none;">
+            <i class="fa fa-arrow-left" style="font-size: xx-large; color: #e91e63;"></i>
+        </a>
+        
+        <h1 class="mb-0">Explore Our Premium Hoodies</h1> 
+        
+        <div style="width: 25px;"></div>
+    </div>
+
+    <div class="product-grid" id="productGrid" style="margin-top: 50px;"></div>
+</div>
+        <div class="side-panel" id="favoritesPanel">
+            <div class="panel-header">
+                <h2>Your Favorites ❤️</h2>
+                <button class="close-panel-btn" onclick="closeFavorites(false)">&times;</button>
+            </div>
+            <div id="favoriteItems">No favorites yet.</div>
+        </div>
+
+        <div class="side-panel" id="cartPanel">
+            <div class="panel-header">
+                <h2>Your Cart</h2>
+                <button class="close-panel-btn" onclick="closeCart(false)">&times;</button>
+            </div>
+            <div id="cartItems">Cart is empty.</div>
+            <div class="total">Total: ₹<span id="cartTotal">0</span></div>
+            <button class="place-btn" id="placeOrder" onclick="placeOrder()">Place Order</button>
+        </div>
+    </main>
+
+    <div class="modal" id="favoritesModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeFavorites(true)">&times;</span>
+            <h2>Your Favorites ❤️</h2>
+            <div id="favoriteItemsModal">No favorites yet.</div>
+        </div>
+    </div>
+
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCart(true)">&times;</span>
+            <h2>Your Cart</h2>
+            <div id="cartItemsModal">Cart is empty.</div>
+            <div class="total">Total: ₹<span id="cartTotalModal">0</span></div>
+            <button class="place-btn" onclick="placeOrder()">Place Order</button>
+        </div>
+    </div>
+
+    <div class="modal" id="sizeSelectorModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeSizeSelectorModal()">&times;</span>
+            <h3 id="modalProductName">Select Size for Hoodie</h3>
+            <img id="modalProductImage" src="" alt="Product Image">
+            <div id="sizeOptions" data-product-id="" data-is-fav-move="false">
+                </div>
+            <button class="add-btn" id="confirmSizeBtn" onclick="confirmSizeAndAddToCart()">Add to Cart</button>
+            <p id="sizeError" style="color: red; margin-top: 10px;"></p>
+        </div>
+    </div>
+    
+<footer class="footer">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <div><strong>Address:</strong><br>123 Fashion Street, Chennai</div>
+      <div><strong>Email:</strong><br>support@tshirtstore.com</div>
+      <div><strong>Hours:</strong><br>Mon-Sat: 10am - 8pm</div>
+    </div>
+    <p style="margin-top:14px">&copy; 2025 TextiQueen T-Shirts | All Rights Reserved</p>
+  </div>
+</footer>
+    <div id="toast-container"></div>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.1/vue.min.js"></script>
+
+  <script>
+    // Toggle function
+    function toggleNewArrivals() {
+      let section = document.getElementById("newArrivals");
+      if (section.style.display === "grid") {
+        section.style.display = "none";
+      } else {
+        section.style.display = "grid";
+      }
+    }
+
+    // Vue card component (for Trending Collections)
+    Vue.component('card', {
+      template: `
+        <div class="card-wrap" onclick="window.location.href='tshirt2.html'" @mousemove="handleMouseMove" @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" ref="card">
+          <div class="card" :style="cardStyle">
+            <div class="card-bg" :style="[cardBgTransform, cardBgImage]"></div>
+            <div class="card-info">
+              <slot name="header"></slot>
+              <slot name="content"></slot>
+              <p style="opacity: 1; font-size: 14px; margin-top: 10px; color: gold;">
+                  <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+              </p>
+              <p style="opacity: 1; font-size: 12px; margin-top: 5px; color: #fff;">Sizes: S, M, L</p>
+            </div>
+          </div>
+        </div>`,
+      mounted() {
+        this.width = this.$refs.card.offsetWidth;
+        this.height = this.$refs.card.offsetHeight;
+      },
+      props: ['dataImage'],
+      data: () => ({ width: 0, height: 0, mouseX: 0, mouseY: 0, mouseLeaveDelay: null }),
+      computed: {
+        mousePX() { return this.mouseX / this.width; },
+        mousePY() { return this.mouseY / this.height; },
+        cardStyle() { return { transform: `rotateY(${this.mousePX * 20}deg) rotateX(${this.mousePY * -20}deg)` }; },
+        cardBgTransform() { return { transform: `translateX(${this.mousePX * -30}px) translateY(${this.mousePY * -30}px)` }; },
+        cardBgImage() { return { backgroundImage: `url(${this.dataImage})` }; }
+      },
+      methods: {
+        handleMouseMove(e) { this.mouseX = e.pageX - this.$refs.card.offsetLeft - this.width/2; this.mouseY = e.pageY - this.$refs.card.offsetTop - this.height/2; },
+        handleMouseEnter() { clearTimeout(this.mouseLeaveDelay); },
+        handleMouseLeave() { this.mouseLeaveDelay = setTimeout(() => { this.mouseX = 0; this.mouseY = 0; }, 1000); }
+      }
+    });
+    new Vue({ el: '#app' });
+
+    // Filter products
+    function filterProducts() {
+      const filter = document.getElementById('searchInput').value.toLowerCase();
+      
+      // Filter main product grid
+      const productBoxes = document.querySelectorAll('#productsGrid .products-box');
+      productBoxes.forEach(product => {
+        let textValue = product.innerText.toLowerCase();
+        product.style.display = textValue.includes(filter) ? "" : "none";
+      });
+      
+      // Filter new arrivals
+      const newArrivalCards = document.querySelectorAll('#newArrivals .card');
+      newArrivalCards.forEach(card => {
+        let cardText = card.innerText.toLowerCase();
+        // Since we wrapped content in <a>, we need to show the parent card
+        card.style.display = cardText.includes(filter) ? "block" : "none"; 
+      });
+      
+      // Re-apply grid display if new arrivals are visible
+      const newArrivalsContainer = document.getElementById("newArrivals");
+      const hasVisibleNewArrivals = Array.from(newArrivalCards).some(card => card.style.display === "block" || card.style.display === "");
+      
+      if (newArrivalsContainer.style.display === "grid") {
+          newArrivalsContainer.style.display = hasVisibleNewArrivals ? "grid" : "none";
+      }
+
+    }
+
+let currentPage = window.location.pathname.split("/").pop();
+if (currentPage === "" || currentPage === "Textiqueen.html") {
+    currentPage = "Textiqueen.html"; 
+}
+document.querySelectorAll(".nav-link").forEach(nav => {
+    nav.classList.remove("active"); 
+    if (nav.getAttribute("href") === currentPage) {
+        nav.classList.add("active"); // Apply the active class to trigger glow + blink
+    }
+});
+ const products = [
+    // --- Products 1-27 (Prices Adjusted to <= 499) ---
+    // Note: Original high prices like 799, 999, 699 are adjusted down.
+    { id: 1, name: "Hoodie (Black)", price: 499, img: "hoodie.jpg", sizes: ["M", "L", "XL"], reviews: 5.0 },
+    { id: 2, name: "Hoodie (Grey)", price: 399, img: "hoodie1.jpg", sizes: ["S", "M", "L"], reviews: 4.5 },
+    { id: 3, name: "Hoodie (Red)", price: 499, img: "hoodie2.jpg", sizes: ["L", "XL", "XXL"], reviews: 3.5 },
+    { id: 4, name: "Hoodie (Pattern)", price: 449, img: "shirt17.jpg", sizes: ["M", "L"], reviews: 4.5 },
+    { id: 5, name: "Boys T-shirt (Blue)", price: 299, img: "boy6.jpg", sizes: ["6-8", "8-10"], reviews: 4.0 },
+    { id: 6, name: "Boys T-shirt (Graphic)", price: 499, img: "boy8.jpg", sizes: ["10-12", "12-14"], reviews: 3.5 },
+    { id: 7, name: "Boys T-shirt (Yellow)", price: 399, img: "boy9.jpg", sizes: ["6-8", "10-12"], reviews: 4.0 },
+    { id: 8, name: "Boys T-shirt (Striped)", price: 449, img: "boy12.jpg", sizes: ["8-10", "10-12"], reviews: 3.5 },
+    { id: 9, name: "Men's T-shirt (Blue V)", price: 499, img: "shirt12.jpg", sizes: ["S", "M", "L", "XL"], reviews: 5.0 },
+    { id: 10, name: "Men's T-shirt (Green)", price: 399, img: "shirt4.jpg", sizes: ["M", "L", "XL"], reviews: 3.5 },
+    { id: 11, name: "Men's T-shirt (Maroon)", price: 499, img: "shirt5.jpg", sizes: ["S", "M", "L"], reviews: 4.5 },
+    { id: 12, name: "Men's T-shirt (Grey Polo)", price: 299, img: "shirt15.jpg", sizes: ["L", "XL", "XXL"], reviews: 5.0 },
+    { id: 13, name: "Women's T-shirt (White V)", price: 499, img: "wshirt.jpg", sizes: ["XS", "S", "M"], reviews: 4.5 },
+    { id: 14, name: "Women's T-shirt (Pink)", price: 349, img: "wshirt2.webp", sizes: ["S", "M", "L"], reviews: 3.0 },
+    { id: 15, name: "Women's T-shirt (Striped)", price: 499, img: "wshirt6.jpg", sizes: ["M", "L", "XL"], reviews: 5.0 },
+    { id: 16, name: "Women's T-shirt (Mustard)", price: 399, img: "wshirt1.jpg", sizes: ["XS", "S", "M"], reviews: 4.5 },
+    { id: 17, name: "Black T-shirt (Basic)", price: 449, img: "black.jpg", sizes: ["S", "M", "L", "XL"], reviews: 5.0 },
+    { id: 18, name: "Black T-shirt (Pocket)", price: 299, img: "black1.jpg", sizes: ["M", "L"], reviews: 3.5 },
+    { id: 19, name: "Black T-shirt (Couple Set)", price: 499, img: "couple1.jpg", sizes: ["M/L", "L/XL"], reviews: 4.5 },
+    { id: 20, name: "Black T-shirt (Couple Love)", price: 319, img: "couple4.jpg", sizes: ["S/M", "L/XL"], reviews: 5.0 },
+    { id: 21, name: "Black T-shirt (Family Pack)", price: 400, img: "fpack3.jpeg", sizes: ["All Sizes"], reviews: 4.5 },
+    { id: 22, name: "Black T-shirt (Plain)", price: 499, img: "shirt5.jpg", sizes: ["M", "L", "XL"], reviews: 4.0 },
+    { id: 23, name: "Black T-shirt (Graphic Tee)", price: 499, img: "shirt20.jpg", sizes: ["S", "M", "L"], reviews: 3.5 },
+    { id: 24, name: "Black T-shirt (4-Pack)", price: 449, img: "pack1.webp", sizes: ["M", "L", "XL"], reviews: 5.0 },
+    { id: 25, name: "White T-shirt (Loose Fit)", price: 399, img: "girl2.webp", sizes: ["S", "M", "L"], reviews: 3.5 },
+    { id: 26, name: "White T-shirt (Couple Set)", price: 499, img: "couple.jpg", sizes: ["M/L", "L/XL"], reviews: 5.0 },
+    { id: 27, name: "White T-shirt (Family Pack)", price: 299, img: "fpack5.jpg", sizes: ["All Sizes"], reviews: 4.5 },
+    
+    // --- Products 28-56 (Repeating Patterns with Price <= 499) ---
+    { id: 28, name: "White T-shirt (V-Neck)", price: 499, img: "shirt14.jpg", sizes: ["S", "M", "L", "XL"], reviews: 4.0 },
+    { id: 29, name: "White T-shirt (Round Neck)", price: 199, img: "shirt6.jpg", sizes: ["S", "M", "L", "XL"], reviews: 5.0 },
+    { id: 30, name: "White T-shirt (Polo)", price: 399, img: "shirt21.jpg", sizes: ["L", "XL", "XXL"], reviews: 3.5 },
+    { id: 31, name: "White T-shirt (Slim Fit)", price: 299, img: "white3.jpg", sizes: ["S", "M", "L"], reviews: 5.0 },
+    { id: 32, name: "White T-shirt (Long Sleeve)", price: 499, img: "white.jpg", sizes: ["M", "L", "XL"], reviews: 3.5 },
+    { id: 33, name: "White T-shirt (Women's Loose)", price: 449, img: "wshirt5.jpg", sizes: ["XS", "S", "M", "L"], reviews: 5.0 },
+    { id: 34, name: "White T-shirt (Women's Polo)", price: 349, img: "wshirt2.webp", sizes: ["S", "M", "L"], reviews: 3.5 },
+    { id: 35, name: "White T-shirt (Basic Tee)", price: 499, img: "shirt2.jpg", sizes: ["S", "M", "L", "XL"], reviews: 5.0 },
+    { id: 36, name: "White T-shirt (Dry Fit)", price: 449, img: "shirt10.jpg", sizes: ["M", "L", "XL"], reviews: 4.5 },
+    { id: 37, name: "Red T-shirt (Solid)", price: 399, img: "red.jpg", sizes: ["S", "M", "L"], reviews: 4.0 },
+    { id: 38, name: "Red T-shirt (Striped)", price: 499, img: "red1.jpg", sizes: ["M", "L", "XL"], reviews: 3.5 },
+    { id: 39, name: "Red T-shirt (Boy's)", price: 399, img: "boy10.jpg", sizes: ["6-8", "8-10"], reviews: 5.0 },
+    { id: 40, name: "Brown T-shirt (Women's)", price: 399, img: "wshirt9.jpg", sizes: ["XS", "S", "M"], reviews: 4.5 },
+    { id: 41, name: "Hoodie (Black) - Repeat", price: 499, img: "hoodie.jpg", sizes: ["M", "L", "XL"], reviews: 5.0 },
+    { id: 42, name: "Hoodie (Grey) - Repeat", price: 399, img: "hoodie1.jpg", sizes: ["S", "M", "L"], reviews: 4.5 },
+    { id: 43, name: "Hoodie (Red) - Repeat", price: 499, img: "hoodie2.jpg", sizes: ["L", "XL", "XXL"], reviews: 3.5 },
+    { id: 44, name: "Hoodie (Pattern) - Repeat", price: 449, img: "shirt17.jpg", sizes: ["M", "L"], reviews: 4.5 },
+    { id: 45, name: "Boys T-shirt (Blue) - Repeat", price: 299, img: "boy6.jpg", sizes: ["6-8", "8-10"], reviews: 4.0 },
+    { id: 46, name: "Boys T-shirt (Graphic) - Repeat", price: 499, img: "boy8.jpg", sizes: ["10-12", "12-14"], reviews: 3.5 },
+    { id: 47, name: "Boys T-shirt (Yellow) - Repeat", price: 399, img: "boy9.jpg", sizes: ["6-8", "10-12"], reviews: 4.0 },
+    { id: 48, name: "Boys T-shirt (Striped) - Repeat", price: 449, img: "boy12.jpg", sizes: ["8-10", "10-12"], reviews: 3.5 },
+    { id: 49, name: "Men's T-shirt (Blue V) - Repeat", price: 499, img: "shirt12.jpg", sizes: ["S", "M", "L", "XL"], reviews: 5.0 },
+    { id: 50, name: "Men's T-shirt (Green) - Repeat", price: 399, img: "shirt4.jpg", sizes: ["M", "L", "XL"], reviews: 3.5 },
+    { id: 51, name: "Men's T-shirt (Maroon) - Repeat", price: 499, img: "shirt5.jpg", sizes: ["S", "M", "L"], reviews: 4.5 },
+    { id: 52, name: "Men's T-shirt (Grey Polo) - Repeat", price: 299, img: "shirt15.jpg", sizes: ["L", "XL", "XXL"], reviews: 5.0 },
+    { id: 53, name: "Women's T-shirt (White V) - Repeat", price: 499, img: "wshirt.jpg", sizes: ["XS", "S", "M"], reviews: 4.5 },
+    { id: 54, name: "Women's T-shirt (Pink) - Repeat", price: 349, img: "wshirt2.webp", sizes: ["S", "M", "L"], reviews: 3.0 },
+    { id: 55, name: "Women's T-shirt (Striped) - Repeat", price: 499, img: "wshirt6.jpg", sizes: ["M", "L", "XL"], reviews: 5.0 },
+    { id: 56, name: "Women's T-shirt (Mustard) - Repeat", price: 399, img: "wshirt1.jpg", sizes: ["XS", "S", "M"], reviews: 4.5 },
+];
+
+        const productGrid = document.getElementById("productGrid");
+        const cartItems = document.getElementById("cartItems");
+        const cartTotal = document.getElementById("cartTotal");
+        const favoriteItems = document.getElementById("favoriteItems");
+        const favoritesPanel = document.getElementById("favoritesPanel");
+        const cartPanel = document.getElementById("cartPanel");
+        const cartModal = document.getElementById("cartModal");
+        const favoritesModal = document.getElementById("favoritesModal");
+        
+        // Size Selector Modal Elements
+        const sizeSelectorModal = document.getElementById("sizeSelectorModal");
+        const modalProductImage = document.getElementById("modalProductImage");
+        const modalProductName = document.getElementById("modalProductName");
+        const sizeOptionsContainer = document.getElementById("sizeOptions");
+        const sizeError = document.getElementById("sizeError");
+
+
+        let cart = [];
+        let favorites = [];
+
+        function isDesktopView() {
+            return window.matchMedia("(min-width: 1001px)").matches;
+        }
+
+        function showToast(message, type = 'default') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.classList.add('toast', `${type}-success`);
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+
+            requestAnimationFrame(() => {
+                toast.classList.add('show');
+            });
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.addEventListener('transitionend', () => {
+                    toast.remove();
+                }, { once: true });
+            }, 3000);
+        }
+
+        function renderProducts() {
+            productGrid.innerHTML = "";
+            products.forEach(p => {
+                const card = document.createElement("div");
+                card.classList.add("product-card");
+                card.setAttribute('data-id', p.id);
+                const isFav = favorites.includes(p.id);
+                const reviewStars = "★".repeat(Math.floor(p.reviews)) + "☆".repeat(5 - Math.floor(p.reviews));
+                card.innerHTML = `
+            <button class="fav-btn ${isFav ? "active" : ""}" onclick="toggleFav(${p.id},this)">❤</button>
+            <img src="${p.img}" alt="${p.name}">
+            <div class="product-info">
+                <h3>${p.name}</h3>
+                <div class="reviews">${reviewStars} (${p.reviews})</div>
+                <p class="price">₹${p.price}</p>
+                <div class="sizes" id="sizes-${p.id}">
+                    ${p.sizes.map(s => `<button class="size-btn" data-size="${s}" onclick="selectSize(this)">${s}</button>`).join('')}
+                </div>
+                <button class="add-btn" onclick="prepareAddToCart(${p.id})">Add to Cart</button>
+            </div>`;
+                productGrid.appendChild(card);
+            });
+        }
+
+        function toggleFav(id, btn) {
+            const prod = products.find(p => p.id === id);
+            const added = !favorites.includes(id);
+
+            if (added) {
+                favorites.push(id);
+                if(btn) btn.classList.add("active"); 
+                showToast(`❤️ Added ${prod.name} to Favorites`, 'fav');
+            } else {
+                favorites = favorites.filter(f => f !== id);
+                if(btn) btn.classList.remove("active");
+                showToast(`💔 Removed ${prod.name} from Favorites`, 'fav');
+            }
+
+            renderFavorites();
+            renderProducts(); 
+
+            // Logic to handle panel/modal state when favorites change
+            if (isDesktopView()) {
+                // Keep the panel open if there are still favorites
+                if (favorites.length > 0 && favoritesPanel.classList.contains("active-desktop")) {
+                     // Do nothing, keep it open
+                } else if (favorites.length === 0) {
+                    closeFavorites(false);
+                }
+            } else {
+                 // If the modal is open and favorites are empty, close it
+                 if (favoritesModal.style.display === "flex" && favorites.length === 0) {
+                     closeFavorites(true);
+                 }
+            }
+        }
+
+        function renderFavorites() {
+            favoriteItems.innerHTML = "";
+            const favModal = document.getElementById("favoriteItemsModal");
+            favModal.innerHTML = "";
+            
+            if (favorites.length === 0) {
+                favoriteItems.textContent = "No favorites yet.";
+                favModal.textContent = "No favorites yet.";
+                return;
+            }
+            
+            favorites.forEach(id => {
+                const prod = products.find(p => p.id === id);
+                
+                const favHtml = `
+                    <div class="item-row">
+                        <div class="item-details">
+                            <strong>${prod.name}</strong> 
+                            <small>Price: ₹${prod.price}</small>
+                        </div>
+                    </div>
+                    <div class="fav-controls">
+                        <button class="move-to-cart-btn" onclick="openSizeSelectorModal(${prod.id}, true)"><i class="fa fa-shopping-cart"></i> Move to Cart</button>
+                        <button class="remove-btn" onclick="toggleFav(${prod.id}, null)"><i class="fa fa-times"></i> Remove</button>
+                    </div>
+                `;
+                
+                const divPanel = document.createElement("div");
+                divPanel.classList.add("side-item");
+                divPanel.innerHTML = favHtml;
+                favoriteItems.appendChild(divPanel);
+
+                const divModal = document.createElement("div");
+                divModal.classList.add("side-item");
+                divModal.innerHTML = favHtml;
+                favModal.appendChild(divModal);
+            });
+        }
+        
+        // --- Size Selector Functions ---
+        
+        function selectSize(btn) {
+            const container = btn.parentNode;
+            // Check if this size button is in the main grid or the modal
+            const siblings = container.querySelectorAll(".size-btn");
+            siblings.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            // Only update error if we are in the size selector modal
+            if (container.id === 'sizeOptions') {
+                sizeError.textContent = ""; 
+            }
+        }
+
+        function prepareAddToCart(id) {
+            const sizeContainer = document.querySelector(`#sizes-${id}`);
+            const selectedSize = sizeContainer.querySelector(".size-btn.active");
+
+            if (selectedSize) {
+                const size = selectedSize.getAttribute('data-size');
+                performAddToCart(id, size);
+                selectedSize.classList.remove('active'); // Clear selection on grid
+                if (isDesktopView()) openCart(false);
+                else openCart(true);
+            } else {
+                openSizeSelectorModal(id);
+            }
+        }
+
+        function openSizeSelectorModal(id, isMoveFromFav = false) {
+            const item = products.find(p => p.id === id);
+            
+            modalProductName.textContent = `Select Size for ${item.name}`;
+            modalProductImage.src = item.img;
+            sizeOptionsContainer.setAttribute('data-product-id', id);
+            sizeOptionsContainer.setAttribute('data-is-fav-move', isMoveFromFav);
+            sizeOptionsContainer.innerHTML = item.sizes.map(s => 
+                `<button class="size-btn" data-size="${s}" onclick="selectSize(this)">${s}</button>`
+            ).join('');
+            sizeError.textContent = ""; 
+            
+            sizeSelectorModal.style.display = "flex";
+        }
+
+        function closeSizeSelectorModal() {
+            sizeSelectorModal.style.display = "none";
+        }
+        
+        function confirmSizeAndAddToCart() {
+            const id = parseInt(sizeOptionsContainer.getAttribute('data-product-id'));
+            const isMoveFromFav = sizeOptionsContainer.getAttribute('data-is-fav-move') === 'true';
+            const selectedBtn = sizeOptionsContainer.querySelector(".size-btn.active");
+
+            if (!selectedBtn) {
+                sizeError.textContent = "Please select a size to proceed.";
+                showToast(`⚠️ Please select a size!`, 'error');
+                return;
+            }
+
+            const size = selectedBtn.getAttribute('data-size');
+            
+            if (isMoveFromFav) {
+                toggleFav(id, null); 
+            } 
+            
+            performAddToCart(id, size);
+            
+            closeSizeSelectorModal();
+            
+            if (isDesktopView()) openCart(false);
+            else openCart(true);
+        }
+
+        function performAddToCart(id, size) {
+            const item = products.find(p => p.id === id);
+            const existing = cart.find(x => x.id === id && x.size === size);
+
+            if (existing) {
+                existing.qty++;
+                showToast(`🛒 Increased quantity of ${item.name} (Size: ${size})`, 'cart');
+            } else {
+                cart.push({ ...item, qty: 1, size: size });
+                showToast(`✅ Added ${item.name} (Size: ${size}) to Cart`, 'cart');
+            }
+
+            updateCart();
+        }
+        
+        // --- END Size Selector Functions ---
+
+
+        function changeQuantity(index, change) {
+            const item = cart[index];
+            if (!item) return;
+
+            item.qty += change;
+
+            if (item.qty <= 0) {
+                cart.splice(index, 1);
+                showToast(`➖ Removed ${item.name} (Size: ${item.size}) from Cart`, 'cart');
+                // If cart is empty and panel is open, close it
+                if (cart.length === 0) {
+                    if (isDesktopView()) closeCart(false);
+                    else closeCart(true);
+                }
+            } else if (change > 0) {
+                showToast(`➕ Increased quantity of ${item.name} (Size: ${item.size})`, 'cart');
+            } else {
+                showToast(`➖ Decreased quantity of ${item.name} (Size: ${item.size})`, 'cart');
+            }
+
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartModalItems = document.getElementById("cartItemsModal");
+            const cartModalTotal = document.getElementById("cartTotalModal");
+            cartItems.innerHTML = "";
+            cartModalItems.innerHTML = "";
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartItems.textContent = "Cart is empty.";
+                cartModalItems.textContent = "Cart is empty.";
+                cartTotal.textContent = "0";
+                cartModalTotal.textContent = "0";
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+
+                const itemHtml = `
+                    <div class="item-row">
+                        <div class="item-details">
+                            <strong>${item.name}</strong> 
+                            <small>Size: ${item.size} | ₹${item.price} each</small>
+                        </div>
+                        <strong class="text-danger">₹${itemTotal}</strong>
+                    </div>
+                    <div class="quantity-controls">
+                        <button onclick="changeQuantity(${index}, -1)">-</button>
+                        <span>${item.qty}</span>
+                        <button onclick="changeQuantity(${index}, 1)">+</button>
+                        <button class="remove-all-btn" onclick="changeQuantity(${index}, -${item.qty})"><i class="fa fa-trash"></i></button>
+                    </div>
+                `;
+
+                // Render to desktop panel
+                const divPanel = document.createElement("div");
+                divPanel.classList.add("side-item");
+                divPanel.innerHTML = itemHtml;
+                cartItems.appendChild(divPanel);
+
+                // Render to mobile modal
+                const divModal = document.createElement("div");
+                divModal.classList.add("side-item");
+                divModal.innerHTML = itemHtml;
+                cartModalItems.appendChild(divModal);
+            });
+
+            cartTotal.textContent = total;
+            cartModalTotal.textContent = total;
+        }
+
+        function placeOrder() {
+            if (cart.length === 0) {
+                alert("Your cart is empty! Please add items before placing an order.");
+                return;
+            }
+            // Logic for order placement
+            window.location.href = 'tshirt2.html'; 
+        }
+
+
+        /* ---- Panel/Modal Controls ---- */
+        function openFavorites(isModal) {
+            if (isModal || !isDesktopView()) {
+                favoritesModal.style.display = "flex";
+                cartModal.style.display = "none"; // Ensure cart modal is closed
+            } else {
+                closeCart(false); // Close cart panel
+                favoritesPanel.classList.add("active-desktop");
+            }
+        }
+
+        function closeFavorites(isModal) {
+            if (isModal || !isDesktopView()) {
+                favoritesModal.style.display = "none";
+            } else {
+                favoritesPanel.classList.remove("active-desktop");
+            }
+        }
+
+        function openCart(isModal) {
+            if (isModal || !isDesktopView()) {
+                cartModal.style.display = "flex";
+                favoritesModal.style.display = "none"; // Ensure favorites modal is closed
+            } else {
+                closeFavorites(false); // Close favorites panel
+                cartPanel.classList.add("active-desktop");
+            }
+        }
+
+        function closeCart(isModal) {
+            if (isModal || !isDesktopView()) {
+                cartModal.style.display = "none";
+            } else {
+                cartPanel.classList.remove("active-desktop");
+            }
+        }
+
+        renderProducts();
+        updateCart(); 
+        renderFavorites(); 
+
+        function filterProducts(query) {
+            const searchTerm = query.toLowerCase().trim();
+            
+            // Filter the products based on the search term
+            const filteredProducts = products.filter(p => 
+                // Check if the product name includes the search term
+                p.name.toLowerCase().includes(searchTerm) || 
+                // Optional: Check if the product description/sizes include the search term
+                p.sizes.some(s => s.toLowerCase() === searchTerm) 
+            );
+            
+            renderProducts(filteredProducts);
+        }
+
+        /**
+         * Renders the list of products to the grid.
+         * @param {Array} productsToRender The array of products to display (default is all products).
+         */
+        function renderProducts(productsToRender = products) {
+            productGrid.innerHTML = "";
+
+            if (productsToRender.length === 0) {
+                // Display the "No Results" message
+                productGrid.innerHTML = `
+                    <div class="no-results">
+                        <center>
+                        <i class="fa fa-frown-open" style="font-size: 30px; margin-bottom: 10px;"></i>
+                        <p>Sorry! No hoodies found matching your search.</p>
+                        <small>Try searching for a different name or type.</small>
+                        </center>
+                    </div>
+                `;
+                return;
+            }
+
+            productsToRender.forEach(p => {
+                const card = document.createElement("div");
+                card.classList.add("product-card");
+                card.setAttribute('data-id', p.id);
+                const isFav = favorites.includes(p.id);
+                const reviewStars = "★".repeat(Math.floor(p.reviews)) + "☆".repeat(5 - Math.floor(p.reviews));
+                card.innerHTML = `
+            <button class="fav-btn ${isFav ? "active" : ""}" onclick="toggleFav(${p.id},this)">❤</button>
+            <img src="${p.img}" alt="${p.name}">
+            <div class="product-info">
+                <h3>${p.name}</h3>
+                <div class="reviews">${reviewStars} (${p.reviews})</div>
+                <p class="price">₹${p.price}</p>
+                <div class="sizes" id="sizes-${p.id}">
+                    ${p.sizes.map(s => `<button class="size-btn" data-size="${s}" onclick="selectSize(this)">${s}</button>`).join('')}
+                </div>
+                <button class="add-btn" onclick="prepareAddToCart(${p.id})">Add to Cart</button>
+            </div>`;
+                productGrid.appendChild(card);
+            });
+        }
+        // --- END NEW: Product Filtering Function ---
+
+        // ... (other existing functions like toggleFav, updateCart, etc. are assumed here)
+
+        // Initial call to render products when the script loads
+        document.getElementById('favorites-link').addEventListener('click', function(e) {
+        e.preventDefault(); 
+      window.location.href = "tshirt2.html";
+        // Replace with actual logic to open favorites
+    });
+        renderProducts();
+</script>
+
+</body>
+</html>

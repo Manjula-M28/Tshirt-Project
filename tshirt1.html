@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Detaails</title>
+    <link rel="website icon" type="png" href="">
+    <style>
+        
+        .two{
+            display: inline;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .main3{
+            flex-wrap: nowrap;
+        }
+        .one{
+            display: inline;
+            margin-left: 54%;
+            font-weight: bold;    
+            }
+        .four{
+            margin-top: 20px;
+            font-size: 60px;
+        }
+        .three{
+            margin-top: 60px;
+            font-weight: bold;
+            border-radius: 40px;
+            font-size: 20px;
+            margin-right: 90px;
+            
+        }
+        input{
+            all: unset;
+            padding: 5px;
+            border-radius: 15px;
+            border: 2px solid  transparent;
+            box-shadow: 0px 2px 2px 2px rgba(0.0,0,0.088);
+            transition: border .3s ease-in-out;
+            justify-content: space-evenly;
+        }
+        input:focus{
+            border-color:rgb(43, 0, 255);
+        }
+        input::placeholder{
+            font-size: .9rem;
+        }
+        .five{
+            margin-bottom: 5px;
+            margin-left: 650px;
+            margin-top: 20px;
+            gap: 20px;
+        }
+        .wel{
+            margin-top: 200px;
+        }
+.glow-button {
+  background-color: #6f42c1;
+  border: none;
+  padding: 1px 20px;
+  color: white;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+
+.glow-button:hover {
+  box-shadow: 0 0 15px #6f42c1;
+}
+.glow-button{
+}
+
+
+
+        img{
+           image-orientation: flip;
+        }
+        ::placeholder{
+            color:darkcyan;
+            opacity: 3;
+        }
+        #clock{
+            background-color: beige;
+            transition: 0.5s ease;
+        }
+        #clock:hover{
+            color:black;
+            cursor:pointer;
+            background-color: lightcoral;
+        }
+    </style>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body style="background-image: url('ground1.jpg'); background-size: cover;">
+    <div class="main3">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <h1 class="navbar-brand">Welcome🙏</h1>
+                <button type="button"class="navbar-toggler"data-bs-toggle="collapse"data-bs-target="#navbar">
+                    <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbar">
+                <div class="navbar-nav">
+                    <a href="Home.html"class="nav-item nav-link">Home</a>
+                    <a href="tshirt1.html"class="nav-item nav-link">Customer Details</a>
+                    <a href="tshirt2.html"class="nav-item nav-link">Order Details</a>
+                    <a href="contactus.html"class="nav-item nav-link">Contact Us</a>
+                </div>
+                <div class="navbar-nav ms-auto">
+                     <a href="Tshirt.html"class="nav-item nav-link">Login</a>
+                    <a href="logout.html"class="nav-item nav-link">Logout</a>
+                </div>
+               </div>
+            </div>
+        </nav>
+    <center>
+       <!-- <h1 class="main"><b><img src="s.jpg" width="200px" height="200px"><img src="wel.jpg" style="width: 400px;height: 200px;"><img src="s.jpg" width="200px" height="200px"> -->
+<!-- </b></h1> -->
+ <div class="wel">
+    </center>   
+  <div class="two">
+    <tr>
+        <td style="margin-right: 2px;">Mobile Number </td><td><input type="tel"></td>
+  </div>
+  <div class="one">
+     <td>Date & Time </td><td><input type="datetime"></td>
+  </div>
+       </tr>
+       </div>
+       <hr>
+              <div id="clock" style="margin-left: 58%;border: 4px solid black;width: 150px; text-align: center;border-radius: 70px;margin-top: 10px;">00:00:00</div>
+
+       <center>
+        <span style="border: 5px solid grey;border-radius: 10px;font-family: Arial, Helvetica, sans-serif; font-size: xx-large;background-color: grey;"><b>Customer Details</b></span>
+
+       <div class="three">
+    <form>
+        <table>
+            <tr>
+                <td style="font-family: Arial, Helvetica, sans-serif;">Name</td><td><input type="text"placeholder="Enter your Name" id="name"></td>
+            </tr>
+            <tr>
+                  <td>Addrerss</td><td><input type="text"placeholder="Enter your Address" id="address"></td>
+            </tr>
+            <tr>
+                <td>Phone no</td><td><input type="datetime"placeholder="Enter your Number"></td>
+            </tr>
+            <tr>
+                <td>Email</td><td><input type="email"placeholder="Enter your Email"></td>
+            </tr>
+        </table>
+        </form>
+    </center>
+       <div class="five">
+        <a href="Tshirt.html"><button class="glow-button" style="margin-left: 10px;">Back</button></a>
+        <a href="tshirt2.html"><button class="glow-button" style="margin-left: 30px;">Next</button></a>
+       </div>
+       </div>
+        <script>
+        setInterval(()=>{
+      const now=new Date();
+      const time=now.toLocaleTimeString();
+      document.getElementById("clock").innerText=time;
+    },1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Custom T-Shirt Order</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {             font-family: 'Segoe UI', sans-serif;
+ background: #f5f5f5; color: #333; line-height: 1.6; padding-bottom:40px; }
+
+.navbar {
+    background: linear-gradient(90deg, #1f1c2c, #928dab);
+    padding: 0.8rem 1rem;
+}
+.navbar-brand {
+    font-size: 2.0rem; 
+    font-weight: 900;
+    letter-spacing: 1px;
+    display: inline-block;
+    transition: 0.3s ease;
+    background: linear-gradient(45deg, #FFD700, #FFA500); /* Gold to Orange Gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.4), 
+                 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.navbar-brand:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 8px #FFD700, 
+                 0 0 15px rgba(0, 0, 0, 0.8);
+}
+.nav-link {
+    color: #fff !important;
+    font-weight: 500;
+    margin: 0 0.6rem;
+    transition: 0.3s ease;
+}
+.nav-link:hover {
+    color: #f0a500 !important;
+    transform: scale(1.05);
+}
+.nav-link.active {
+    color: #f0a500 !important;
+    text-shadow: 0 0 15px #f0a500;
+    animation: blinkGlow 1s infinite alternate; 
+}
+@keyframes blinkGlow {
+    0%   { text-shadow: 0 0 8px #f0a500; opacity: 1; }
+    100% { text-shadow: 0 0 25px #f0a500; opacity: 0.9; }
+}
+.navbar-nav .nav-item .nav-link i {
+    margin-right: 6px;
+    transition: 0.3s ease;
+}
+.navbar-nav .nav-item:hover i {
+    transform: scale(1.3) rotate(10deg);
+}
+#favorites-link:hover i {
+    color: #ff4d6d;
+    text-shadow: 0 0 10px #ff4d6d;
+}
+#cart-link:hover i {
+    color: #00eaff;
+    text-shadow: 0 0 10px #00eaff;
+}
+@media (max-width: 991px) {
+    .navbar-collapse {
+        background: #1f1c2c;
+        padding: 20px;
+        border-radius: 14px;
+        margin-top: 10px;
+        animation: slideDown 0.4s ease;
+    }
+    @keyframes slideDown {
+        from { transform: translateY(-15px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    .navbar-nav .nav-item {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+    .navbar-nav .nav-link {
+        background: rgba(255,255,255,0.08);
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        font-size: 1.05rem;
+    }
+    .navbar-nav .nav-link:hover {
+        transform: scale(1.02);
+    }
+    .right-icons {
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    .right-icons .nav-link {
+        font-size: 1.05rem;
+        padding: 12px;
+    }
+}
+    /* Mobile Centered Nav */
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background: linear-gradient(180deg, #1f1c2c, #4b3f72);
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 10px 0;
+      }
+
+      .navbar-nav .nav-link {
+        display: block;
+        padding: 10px 0;
+        margin: 0;
+      }
+
+      .navbar-nav.ms-auto {
+        margin-top: 10px;
+      }
+    }
+
+  header { padding: 1rem 0; text-align: center; }
+  header h1 { font-size: 1.8rem; color: #ff6600; }
+
+  .container-main { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px; max-width: 1100px; margin: 90px auto 0; }
+
+  .product { background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
+  .product:hover { transform: scale(1.03); }
+  .product img { width: 100%; border-radius: 8px; }
+  .product h2 { margin: 10px 0; }
+
+  .form-container { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .form-container table { width: 100%; border-collapse: collapse; }
+  .form-container td { padding: 8px 10px; vertical-align: middle; }
+  .form-container tr:nth-child(even) { background: #f9f9f9; }
+  .form-container label { font-weight: 600; }
+  .form-container input, .form-container textarea, .form-container select { width: 100%; padding: 6px 8px; border: 1px solid #ccc; border-radius: 4px; }
+  .form-container input[type="checkbox"], .form-container input[type="radio"] { width: auto; margin-right: 5px; }
+  .form-container input[type="submit"], .form-container input[type="reset"], .sub { background: #ff6600; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+  .form-container input[type="submit"]:hover, .form-container input[type="reset"]:hover, .sub:hover { background: #e65c00; }
+
+  .offers { margin: 20px auto; max-width: 1100px; background: #fffae6; border-left: 5px solid #ff6600; padding: 15px; border-radius: 6px; }
+
+  section.extra-content { max-width: 1100px; margin: 30px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  section.extra-content h2 { margin-bottom: 15px; color: #ff6600; }
+  section.extra-content ul { list-style-type: disc; margin-left: 20px; margin-bottom: 25px; }
+  table.size-chart { border-collapse: collapse; width: 100%; max-width: 400px; margin-bottom: 25px; }
+  table.size-chart th, table.size-chart td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+  table.size-chart th { background-color: #ff6600; color: white; }
+
+  /* Spin & Win Styling */
+  .spin-area {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    border-top: 2px dashed #ff6600;
+    position: relative;
+  }
+  canvas {
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    display: block;
+    margin: 0 auto;
+  }
+  .pointer {
+    width: 0;
+    height: 0;
+    border-left: 18px solid transparent;
+    border-right: 18px solid transparent;
+    border-bottom: 28px solid #ff0000;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+  }
+  .spin-container {
+    position: relative;
+    width: 350px;
+    height: 370px;
+    margin: 0 auto;
+  }
+  #spinBtn {
+    background: #ff6600;
+    color: #fff;
+    border: none;
+    padding: 8px 18px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  #spinBtn[disabled] { opacity: 0.6; cursor: not-allowed; }
+  #spinBtn:hover { background: #e65c00; }
+  #resultText {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #ff6600;
+  }
+
+  #giftMessage {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #28a745;
+    font-weight: 600;
+    display: none;
+    animation: fadeIn 1s ease forwards;
+  }
+
+  .blaster {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: yellow;
+    pointer-events: none;
+    opacity: 1;
+    animation: blast 1s forwards;
+  }
+
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  @keyframes blast {
+    0% {transform: scale(1) translate(0,0); opacity:1;}
+    100% {transform: scale(3) translate(calc(var(--x)*1px), calc(var(--y)*1px)); opacity:0;}
+  }
+
+  @media (max-width: 992px) { 
+    .container-main { grid-template-columns: 1fr; } 
+    header h1 { font-size: 1.5rem; } 
+    .spin-container{ width:250px; height:270px;} 
+    canvas{width:250px;height:250px;} 
+  }
+  @media (max-width: 576px) {
+    .navbar-brand { font-size: 1.2rem; }
+    .form-container table, .form-container tbody, .form-container tr, .form-container td { display: block; width: 100%; text-align: left; border: none; padding: 5px 0; }
+    .form-container tr { border-bottom: 1px solid #ddd; padding: 10px 0; }
+    .spin-container{ width:200px; height:220px;} 
+    canvas{width:200px;height:200px;} 
+  }
+  .offers {
+    margin: 20px auto;
+    max-width: 1100px;
+    background: #fffae6;
+    border-left: 5px solid #ff6600;
+    padding: 15px;
+    border-radius: 6px;
+  }
+
+  section.extra-content {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  section.extra-content h2 {
+    margin-bottom: 15px;
+    color: #ff6600;
+  }
+  section.extra-content ul {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 25px;
+  }
+
+  .color-swatches {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+  }
+  .color-swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+  .color-swatch:hover,
+  .color-swatch.selected {
+    border-color: #ff6600;
+  }
+  .color-black { background: #000; }
+  .color-white { background: #fff; border: 1px solid #ccc; }
+  .color-red { background: #ff0000; }
+  .color-blue { background: #0000ff; }
+
+  table.size-chart {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 25px;
+  }
+  table.size-chart th,
+  table.size-chart td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  table.size-chart th {
+    background-color: #ff6600;
+    color: white;
+  }
+
+  blockquote {
+    border-left: 4px solid #ff6600;
+    margin: 10px 0 25px 0;
+    padding-left: 15px;
+    font-style: italic;
+    color: #555;
+  }
+
+  @media (max-width: 992px) {
+    .containerr { 
+      grid-template-columns: 1fr; 
+    }
+    header h1 { 
+      font-size: 1.5rem; 
+    }
+  }
+
+  @media (max-width: 576px) {
+    .navbar-brand { 
+      font-size: 1.2rem; 
+    }
+    .detailed-form-container table {
+      display: block;
+    }
+    .detailed-form-container tbody, 
+    .detailed-form-container tr {
+      display: block;
+      width: 100%;
+    }
+    .detailed-form-container td {
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      padding: 5px 0;
+    }
+    .detailed-form-container tr {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+  }
+  /* ---------- Footer ---------- */
+.footer{background:#222;color:#fff;padding:18px;text-align:center;margin-top:30px}
+.footer a{color:#f48fb1;text-decoration:none}
+
+  /* MAIN CARD */
+        .gift-wrapper {
+            max-width: 900px;
+            margin: 35px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            border: 2px solid #ffb77a;
+            position: relative;
+        }
+
+        .gift-wrapper h2 {
+            text-align: center;
+            color: #e66a00;
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        /* NEW DESIGN – CARD STYLE GRID */
+        .gift-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+        }
+
+        .gift-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transition: 0.3s ease;
+            border: 3px solid #ff9b47;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gift-card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .gift-name {
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #444;
+            background: #fff7ee;
+            border-top: 2px solid #ff9b47;
+            font-size: 0.9rem;
+        }
+
+        .gift-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.22);
+        }
+
+        /* FOOTER */
+        .gift-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.15rem;
+            font-style: italic;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 768px) {
+            .gift-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media(max-width: 480px) {
+            .gift-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gift-wrapper h2 {
+                font-size: 1.6rem;
+            }
+        }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">Textiqueen</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="Textiqueen.html" class="nav-link"> 
+                        <i class="fas fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="collection.html" class="nav-link">
+                        <i class="fas fa-tshirt"></i> Collection
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tshirt2.html" class="nav-link">
+                        <i class="fas fa-shopping-cart"></i> Order Details
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="contactus.html" class="nav-link">
+                        <i class="fas fa-envelope"></i> Contact Us
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto right-icons">
+                <li class="nav-item">
+                    <a href="demo3.html" class="nav-link" id="favorites-link">
+                        <i class="fas fa-heart"></i> Favorites
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="demo3.html" class="nav-link" id="cart-link">
+                        <i class="fas fa-shopping-bag"></i> Cart
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="Tshirt.html" class="nav-link">
+                        <i class="fas fa-user"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="logout.html" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<header class="mt-5 pt-4">
+  <h1 style="margin-top: 20px;">Custom T-Shirt Order</h1>
+</header>
+
+<div class="container-main" style="margin-top: 0px;">
+  <div class="product">
+    <img src="shirt15.jpg" alt="T-Shirt">
+    <h2>Premium Cotton T-Shirt</h2>
+    <p>High quality, 100% cotton, available in multiple sizes.</p>
+    <p><strong>₹499</strong> per piece</p>
+  </div>
+
+  <div class="form-container">
+    <form class="form" id="tshirtForm">
+      <table>
+        <tr><td><label for="age">Full Name:</label></td><td><input type="text" id="age" name="age" required></td></tr>
+        <tr><td><label for="tshirtSize">T-Shirt Size:</label></td><td>
+          <select id="tshirtSize" name="tshirtSize" required>
+            <option value="">Select Size</option>
+            <option value="S">S</option><option value="M">M</option>
+            <option value="L">L</option><option value="XL">XL</option>
+          </select>
+        </td></tr>
+                  <tr>
+    <td><label for="phone">Phone Number:</label></td>
+    <td>
+        <input 
+            type="tel" 
+            id="phone" 
+            name="phone" 
+            required 
+            pattern="[0-9]{10}" 
+            title="Please enter exactly 10 digits only."
+            maxlength="10" 
+            onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+        >
+    </td>
+</tr>
+        <tr><td><label for="orderDate">Address Line 1 (House No., Street):</label></td><td><input type="text" id="orderDate" name="orderDate" required></td></tr>
+        <tr><td>Payment Type:</td>
+          <td>
+            <input type="radio" id="cod" name="paymentType" value="Cash On Delivery" required><label for="cod">COD</label>
+            <input type="radio" id="upi" name="paymentType" value="UPI"><label for="upi">UPI</label>
+          </td>
+        </tr>
+        <tr><td><label for="quantity">Quantity:</label></td><td><input type="number" id="quantity" name="quantity" min="1" value="1" required></td></tr>
+        <tr><td><label for="customText">ZIP / Postal Code:</label></td><td><input type="number" id="customText" name="customText" placeholder="Enter Zip Code" required></td></tr>
+        <tr><td><label for="giftWrap">Gift Wrap:</label></td><td><input type="checkbox" id="giftWrap" name="giftWrap"> 🎁 Yes</td></tr>
+        <tr><td><input type="reset" value="Reset"></td><td><input type="submit" value="Submit Order" class="sub"></td></tr>
+      </table>
+
+      <!-- Spin & Win Game -->
+      <div class="spin-area">
+        <h4>🎉 Try Your Luck! Spin & Win a Gift 🎉</h4>
+        <div class="spin-container">
+          <div class="pointer" aria-hidden="true"></div>
+          <canvas id="wheel" width="350" height="350" aria-label="Prize wheel"></canvas>
+        </div>
+        <button type="button" id="spinBtn">SPIN NOW</button>
+        <p id="resultText" role="status" aria-live="polite"></p>
+        <p id="giftMessage">🎉 Your gift will come when the T-shirt is delivered!</p>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="offers">
+  <h3>🔥 Special Offer</h3>
+  <p>Buy 2 T-Shirts and get 10% off your total order!</p>
+</div>
+ <div class="gift-wrapper">
+        <h2>🎁 Exclusive Gifts With Your Order!</h2>
+        <p class="subtitle">Your order qualifies for premium complimentary gifts. Enjoy the surprise items listed below:</p>
+
+        <div class="gift-grid">
+            <div class="gift-card">
+                <img src="pen.webp" alt="Gift 1">
+                <div class="gift-name">Premium Pens</div>
+            </div>
+
+            <div class="gift-card">
+                <img src="panda.jpg" alt="Gift 2">
+                <div class="gift-name">Exclusive Toy</div>
+            </div>
+
+            <div class="gift-card">
+                <img src="rcb.webp" alt="Gift 3">
+                <div class="gift-name">Branded Keychain</div>
+            </div>
+
+            <div class="gift-card">
+                <img src="royal.jpg" alt="Gift 4">
+                <div class="gift-name">Luxury Toy</div>
+            </div>
+
+            <div class="gift-card">
+                <img src="mug.avif" alt="Gift 5">
+                <div class="gift-name">Classic Mug</div>
+            </div>
+        </div>
+
+        <p class="gift-footer">Your gifts are packed with love and excitement ✨</p>
+    </div>
+<section class="extra-content">
+  <h2>Why Choose Our T-Shirts?</h2>
+  <ul>
+    <li>100% premium cotton for comfort and durability</li>
+    <li>Eco-friendly dyes and materials</li>
+    <li>Machine washable and easy to care</li>
+    <li>Custom print options available</li>
+  </ul>
+
+  <h2>Size Chart</h2>
+  <table class="size-chart" aria-label="T-shirt size chart">
+    <thead>
+      <tr>
+        <th>Size</th>
+        <th>Chest (inches)</th>
+        <th>Length (inches)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>S</td><td>34-36</td><td>27</td></tr>
+      <tr><td>M</td><td>38-40</td><td>28</td></tr>
+      <tr><td>L</td><td>42-44</td><td>29</td></tr>
+      <tr><td>XL</td><td>46-48</td><td>30</td></tr>
+    </tbody>
+  </table>
+   <section class="scroll-animate section-container">
+        <h2 class="section-header">What Our Customers Say</h2>
+        <div style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center;">
+            <div class="card scroll-animate scroll-delay-1" style="max-width:300px; padding:20px;">
+                <p>"Great quality and fast delivery! My go-to store now."</p>
+                <strong>- Rahul S.</strong>
+            </div>
+            <div class="card scroll-animate scroll-delay-2" style="max-width:300px; padding:20px;">
+                <p>"Loved the fit and fabric. Definitely ordering more."</p>
+                <strong>- Priya K.</strong>
+            </div>
+            <div class="card scroll-animate scroll-delay-3" style="max-width:300px; padding:20px;">
+                <p>"Sits perfectly — not too loose, not too tight — making it flattering for all body types."</p>
+                <strong>- Raj M.</strong>
+            </div>
+        </div>
+    </section>
+
+  <h2>Shipping & Returns</h2>
+  <p>We deliver across India within 5-7 business days. Free shipping on orders over ₹1000. Easy returns within 15 days of delivery.</p>
+</section>
+<footer class="footer">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <div><strong>Address:</strong><br>123 Fashion Street, Chennai</div>
+      <div><strong>Email:</strong><br>support@tshirtstore.com</div>
+      <div><strong>Hours:</strong><br>Mon-Sat: 10am - 8pm</div>
+    </div>
+    <p style="margin-top:14px">&copy; 2025 TextiQueen T-Shirts | All Rights Reserved</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const pricePerShirt = 499;
+const quantityInput = document.getElementById('quantity');
+const totalPrice = document.getElementById('totalPrice');
+quantityInput.addEventListener('input', ()=> {
+  let qty = parseInt(quantityInput.value)||1;
+  let total = pricePerShirt*qty;
+  if(qty>=2) total = Math.round(total*0.9);
+  totalPrice.textContent = total;
+});
+
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const resultText = document.getElementById('resultText');
+const giftMsg = document.getElementById('giftMessage');
+const spinBtn = document.getElementById('spinBtn');
+const gifts = ["Pen","Mug","Keychain","Cap","Book","T-Shirt"];
+const colors = ["#f54291","#42a5f5","#66bb6a","#ffa726","#ab47bc","lightblue"];
+const size = gifts.length;
+const degPerSlice = 360/size;
+let angleDeg=0, spinVelocity=0, spinning=false;
+const friction=0.985,minVelocity=0.2,cx=canvas.width/2,cy=canvas.height/2,radius=Math.min(cx,cy)-4;
+
+function drawWheel(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(angleDeg*Math.PI/180);
+  for(let i=0;i<size;i++){
+    const startDeg = i*degPerSlice;
+    const startRad = startDeg*Math.PI/180;
+    const endRad = (startDeg+degPerSlice)*Math.PI/180;
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.fillStyle=colors[i%colors.length]; ctx.arc(0,0,radius,startRad,endRad); ctx.lineTo(0,0); ctx.fill();
+    ctx.save();
+    const midRad = (startRad+endRad)/2;
+    ctx.rotate(midRad); ctx.fillStyle='#fff'; ctx.font='bold 14px Arial'; ctx.textAlign='right';
+    ctx.fillText(gifts[i],radius-12,6); ctx.restore();
+  }
+  ctx.beginPath(); ctx.fillStyle='#333'; ctx.arc(0,0,28,0,Math.PI*2); ctx.fill();
+  ctx.restore();
+}
+
+function animate(){
+  if(!spinning) return;
+  angleDeg += spinVelocity; spinVelocity*=friction; angleDeg=angleDeg%360; drawWheel();
+  if(Math.abs(spinVelocity)<=minVelocity){ spinning=false; finalizeSpin(); return;}
+  requestAnimationFrame(animate);
+}
+
+function finalizeSpin(){
+  drawWheel();
+  const pointerAngle=270;
+  const normalized = (pointerAngle-angleDeg+360)%360;
+  const selectedIndex = Math.floor(normalized/degPerSlice)%size;
+  const giftWon = gifts[selectedIndex];
+  if(giftWon==="No Luck"){
+    resultText.textContent="😢 No Luck this time!";
+  }else{
+    resultText.textContent=`🎁 You won: ${giftWon}!`;
+    blastEffect();
+  }
+  giftMsg.style.display="block";
+ // localStorage.setItem("hasSpun","true");
+  spinBtn.disabled=true;
+}
+
+function blastEffect(){
+  for(let i=0;i<20;i++){
+    const blaster = document.createElement('div');
+    blaster.classList.add('blaster');
+    blaster.style.setProperty('--x',(Math.random()*200-100));
+    blaster.style.setProperty('--y',(Math.random()*200-100));
+    document.querySelector('.spin-area').appendChild(blaster);
+    setTimeout(()=>blaster.remove(),1000);
+  }
+}
+
+spinBtn.addEventListener('click',()=>{
+  if(spinning) return;
+  //if(localStorage.getItem("hasSpun")){ alert("You can spin only once!"); return;}
+  spinning=true; spinBtn.disabled=true; spinBtn.textContent='SPINNING...'; resultText.textContent=''; giftMsg.style.display="none";
+  const extraRotations=Math.floor(Math.random()*3)+4;
+  const initialSpeed=(extraRotations*360)/30; spinVelocity=initialSpeed+Math.random()*20;
+  requestAnimationFrame(animate);
+});
+
+drawWheel(); window.addEventListener('resize',()=>drawWheel());
+document.getElementById('tshirtForm').addEventListener('submit', function(e){
+    e.preventDefault(); // prevent actual form submission
+    window.location.href = 'tshirt3.html'; // redirect to new page
+});
+let currentPage = window.location.pathname.split("/").pop();
+if (currentPage === "" || currentPage === "Textiqueen.html") {
+    currentPage = "Textiqueen.html"; 
+}
+document.querySelectorAll(".nav-link").forEach(nav => {
+    nav.classList.remove("active"); 
+    if (nav.getAttribute("href") === currentPage) {
+        nav.classList.add("active"); // Apply the active class to trigger glow + blink
+    }
+});
+</script>
+</body>
+</html>

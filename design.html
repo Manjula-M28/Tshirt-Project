@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TextiQueen - T-Shirt Store</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>  
+  <style>
+    /* General styles */
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar-logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #ff004c;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #555;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #ff004c;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .hero-section img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay for text readability */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+
+    .hero-overlay h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); 
+    }
+
+    .hero-overlay p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Offer Section */
+    .offer {
+      background: #ff004c;
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      margin: 2rem 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .offer h2 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    .offer p {
+      margin: 10px 0 0;
+      font-size: 1.2rem;
+    }
+
+    /* Product Cards */
+    h2 {
+      text-align: center;
+      margin: 3rem 0 1.5rem;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 50px;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 1rem;
+    }
+
+    .card {
+      text-align: center;
+      padding: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 10px;  
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #fff;
+      max-width: 300px;
+      box-sizing: border-box;
+      /* Default basis for 3-4 columns on large screens */
+      flex-basis: 220px; 
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .card img {
+      width: 100%;
+      max-width: 150px;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      color: #333;
+      margin: 0.5rem 0 0;
+    }
+
+    /* WhatsApp Contact Button */
+    .contact-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        background: #25d366;
+        color: white;
+        padding: 14px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        transition: background 0.3s;
+        z-index: 9999;
+    }
+
+    .contact-btn i {
+        font-size: 1.8rem;
+    }
+
+    .contact-btn:hover {
+      background: #128c7e;
+    }
+
+    /* Back Arrow Style */
+    .arrow {
+      font-size: 20px;
+      margin-top: 10px;
+      color:  #ff004c;
+      margin-left: 10px;
+      display: inline-block;
+      text-decoration: none;
+    }
+    
+    .arrow i {
+      margin-top: 10px;
+    }
+
+    /* Footer */
+    footer {
+      background: #222;
+      color: #ccc;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    footer p {
+      margin: 0.5rem 0;
+      font-size: 0.9rem;
+    }
+
+    /* ========================================= */
+    /* Media Queries for responsiveness - OPTIMIZED */
+    /* ========================================= */
+    
+    /* Desktop/Large Tablet (Overlay removal) */
+    @media (min-width: 1025px) {
+      .hero-overlay {
+        display: none; /* Hides the overlay text on large screens */
+      }
+    }
+
+    /* Tablet/Landscape Mobile (768px and below) */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+      }
+      .nav-links {
+        margin-top: 0.5rem;
+        gap: 1rem;
+      }
+      .hero-section {
+        height: 350px;
+      }
+      .hero-overlay h1 {
+        font-size: 2.2rem;
+      }
+      .hero-overlay p {
+        font-size: 1rem;
+      }
+      .container {
+        gap: 20px; /* Reduced gap */
+      }
+      /* Force 2 cards per row */
+      .card {
+        flex-basis: calc(50% - 15px); 
+        max-width: none;
+      }
+    }
+
+    /* Small Mobile Phones (480px and below) */
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 0.8rem 1rem;
+      }
+      .navbar-logo {
+        font-size: 1.5rem;
+      }
+      .nav-links {
+        display: none; 
+      }
+      
+      .hero-section {
+        height: 250px;
+      }
+      .hero-overlay h1 {
+        font-size: 1.8rem;
+      }
+      .hero-overlay p {
+        display: none; 
+      }
+      
+      .container {
+        gap: 15px; 
+      }
+      /* Ensure 2 cards per row on phones */
+      .card {
+        flex-basis: calc(50% - 10px); 
+        padding: 0.75rem;
+      }
+      
+      .card img {
+          max-width: 120px; 
+      }
+      
+      .contact-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        gap: 8px;
+        right: 10px;
+        bottom: 10px;
+      }
+      
+      .contact-btn i {
+          font-size: 1.5rem;
+      }
+      
+      .arrow {
+          font-size: 16px;
+      }
+    }
+    /* ---------- Footer ---------- */
+.footer{background:#222;color:#fff;padding:18px;text-align:center;margin-top:30px}
+.footer a{color:#f48fb1;text-decoration:none}
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="navbar-logo">TextiQueen</div>
+    <div class="nav-links">
+      <a href="#men">Men</a>
+      <a href="#women">Women</a>
+      <a href="#kids">Kids</a>
+    </div>
+  </nav>
+
+<a href="Textiqueen.html" class="arrow"><i class="fa-solid fa-arrow-left"></i></a>
+
+ <div class="hero-section">
+    <picture>
+      <source media="(max-width: 1024px)" srcset="https://i.pinimg.com/1200x/07/f3/2f/07f32faf29cdc0192992ca7cd86b98aa.jpg">
+      <img src="design.jpg" alt="Stylish T-shirts Banner">
+    </picture>
+    <div class="hero-overlay">
+      <h1>Welcome to TextiQueen</h1>
+      <p>Discover our exclusive collection of custom-designed t-shirts for every occasion.</p>
+    </div>
+  </div>
+
+  <div class="offer">
+    <h2>🎁 Special Offer 🎁</h2>
+    <p>Shop for ₹1000 or more & get a <b>Free Surprise Gift!</b></p>
+  </div>
+
+  <h2 id="men"><b>Men / Unisex Clothing</b></h2>
+  <div class="container">
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Men-Round-Neck.png" alt="Round Neck">
+      <h3>Round Neck</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Men-V-Neck.png" alt="V-Neck">
+      <h3>V-Neck</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Full-Sleeve.png" alt="Full Sleeve">
+      <h3>Full Sleeve</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Polo.png" alt="Polo T-shirt">
+      <h3>Polo T-Shirt</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Sleeveless.png" alt="Sleeveless">
+      <h3>Sleeveless</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Raglan.png" alt="Raglan">
+      <h3>Raglan Sleeve</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Hoodie-Without-zip-hoodie.png" alt="Hoodie">
+      <h3>Hoodie Without Zip</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Zip-Hoodie.png" alt="Hoodie">
+      <h3>Hoodie With Zip</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Ringer.png" alt="Ringer">
+      <h3>Ringer</h3>
+    </div>
+  </div>
+
+  <h2 id="women"><b>Women's Clothing</b></h2>
+  <div class="container">
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Women-Round-Neck-tshirt.png" alt="Round Neck">
+      <h3>Round Neck</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Women-Polo-Collar.jpg" alt="V-Neck">
+      <h3>V-Neck</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Women-Tank-top.png" alt="Tank Top">
+      <h3>Tank Top</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Women-raglan-sleeve.png" alt="Raglan Sleeve">
+      <h3>Raglan Sleeve</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Matrinity-T-shirt.png" alt="Maternity T-shirt">
+      <h3>Maternity T-shirt</h3>
+    </div>
+   
+  </div>
+
+  <h2 id="kids"><b>Kid's Clothing</b></h2>
+  <div class="container">
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Kids-Round-neck.png" alt="Round Neck">
+      <h3>Round Neck</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Rompers.png" alt="Rompers">
+      <h3>Rompers</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Bib.png" alt="Bib">
+      <h3>Bib</h3>
+    </div>
+    <div class="card">
+      <img src="https://teelabs.in/wp-content/uploads/2021/06/Hoodie-Without-zip-hoodie.png" alt="Hoodie">
+      <h3>Kid's Hoodie</h3>
+    </div>
+  </div>
+
+<a class="contact-btn" href="https://wa.me/919488371112" target="_blank">
+  <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+</a>
+
+<footer class="footer">
+  <div style="max-width:1100px;margin:0 auto">
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+      <div><strong>Address:</strong><br>123 Fashion Street, Chennai</div>
+      <div><strong>Email:</strong><br>support@tshirtstore.com</div>
+      <div><strong>Hours:</strong><br>Mon-Sat: 10am - 8pm</div>
+    </div>
+    <p style="margin-top:14px">&copy; 2025 TextiQueen T-Shirts | All Rights Reserved</p>
+  </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stylish Navbar - Smooth Transitions</title>
+
+    <!-- ICONS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* COLOR PALETTE:
+           --bg-primary: #fff5e7 (Very light yellow/cream)
+           --accent-dark: rgb(121, 0, 0) (Deep Maroon/Burgundy)
+           --accent-light: rgb(237, 101, 101) (Soft Coral/Salmon)
+        */
+        :root {
+            --bg-primary: #fff5e7;
+            --accent-dark: rgb(121, 0, 0);
+            --accent-light: rgb(237, 101, 101);
+            --text-dark: #333;
+        }
+
+        /* Applying the user's requested font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        /* NAVBAR */
+        nav {
+            width: 100%;
+            background: var(--bg-primary);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* LEFT — LOGO + MENU */
+        .left-box {
+            display: flex;
+            align-items: center;
+            gap: 30px; 
+        }
+
+        /* LOGO */
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--accent-dark);
+            transition: color 0.3s ease;
+        }
+        
+        .logo:hover {
+            color: var(--accent-light);
+        }
+
+        /* NAV LINKS (Default is visible - flex) */
+        .nav-links {
+            display: flex;
+            gap: 30px; 
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: var(--accent-dark);
+            font-weight: 500;
+            position: relative;
+            padding-bottom: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Underline hover effect */
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent-light);
+            border-radius: 10px;
+            transition: 0.3s ease; 
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* RIGHT ICONS CONTAINER */
+        .icons-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        /* ICONS */
+        .icons {
+            display: flex;
+            gap: 18px;
+            font-size: 22px;
+            align-items: center;
+        }
+
+        .icons i {
+            color: var(--accent-dark);
+            background: #ffe4d3;
+            padding: 8px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease; 
+        }
+
+        .icons i:hover {
+            background: var(--accent-light);
+            color: white;
+            transform: scale(1.05); 
+        }
+        
+        /* CART BADGE */
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-light);
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            height: 16px;
+            width: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 2px solid var(--bg-primary);
+        }
+
+        /* ACCOUNT DROPDOWN */
+        .account-box {
+            position: relative;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 45px;
+            right: 0;
+            width: 180px;
+            background: var(--bg-primary);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 0;
+            display: none;
+            overflow: hidden;
+            animation: fadeInDrop 0.2s ease forwards; 
+        }
+
+        @keyframes fadeInDrop {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .dropdown button, .dropdown a {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            text-decoration: none;
+            color: var(--accent-dark);
+            font-size: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.3s, color 0.3s; 
+        }
+        
+        .dropdown button:hover, .dropdown a:hover {
+            background: var(--accent-light);
+            color: white;
+        }
+        
+        /* MOBILE MENU TOGGLE (Default is hidden) */
+        .menu-toggle {
+            display: none;
+            font-size: 28px;
+            color: var(--accent-dark);
+            cursor: pointer;
+        }
+
+        /* MOBILE MENU CONTAINER - Setup for smooth slide effect */
+        .mobile-menu {
+            position: fixed;
+            top: 66px; /* Below the fixed navbar */
+            left: 0;
+            width: 100%;
+            background: var(--bg-primary);
+            padding: 0 30px; /* Padding top/bottom is zero initially */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            
+            /* Core for smooth animation: Use max-height and overflow */
+            max-height: 0;
+            overflow: hidden;
+            /* Increase transition time slightly for a more 'slow' effect as requested */
+            transition: max-height 0.6s ease-in-out, padding 0.6s ease-in-out; 
+            
+            display: flex; 
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+        
+        /* STATE: Menu Open */
+        .mobile-menu.is-open {
+            /* Set height large enough to contain content */
+            max-height: 500px; 
+            /* Re-introduce padding for content spacing */
+            padding: 20px 30px; 
+        }
+
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--accent-dark);
+            font-size: 18px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            transition: background 0.3s, color 0.3s;
+        }
+        .mobile-menu a:hover {
+            background: var(--accent-light);
+            color: white;
+        }
+        
+        .mobile-auth-section button {
+            color: white; 
+            background: var(--accent-dark); 
+            padding: 10px 15px; 
+            border-radius: 6px; 
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        /* --- Custom Page Content Styles --- */
+        .one{
+            background-color: var(--bg-primary);
+            width: 100%;
+        } 
+        .first{
+            text-align: center;
+        }
+        .two{
+            text-align: center;
+            padding: 20px;
+        }
+        .second {
+            position: relative;
+            /* Using a solid color background for reliability instead of local search.jpg */
+            background-color: #f0f0f0; 
+            padding: 100px 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+        }
+        /* Removed the ::before overlay as the image is removed. */
+        .search-input {
+            position: relative;
+            z-index: 2;
+            border: 2px solid var(--accent-light);
+            outline: none;
+            font-size: 16px;
+            padding: 15px 15px 15px 40px; 
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+        }
+        .three{
+            text-align: center;
+            background-color: var(--bg-primary);
+            padding-top: 25px;
+        }
+        .five{
+            text-align: center;
+            background-color: var(--bg-primary);
+            margin-top: 50px;
+            padding-top: 20px;
+        }
+        .four,
+        .six,
+        .nine{
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+        .four1,
+        .six1,
+        .nine1 {
+            background-color: #ffffff; /* Use white for cards to contrast with moonu background */
+            border-radius: 15px;
+            overflow: hidden;
+            width: 320px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .four1:hover,
+        .six1:hover,
+        .nine1:hover{
+            transform: translateY(-5px); /* Lift effect */
+            box-shadow: 0 8px 20px rgba(237, 101, 101, 0.4);
+        }
+        .four1 img,
+        .six1 img,
+        .nine1 img,
+        .wallpaper img,
+        .color img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+        .fourth,
+        .sixth,
+        .nineth {
+            background-color: var(--bg-primary);
+            padding: 15px;
+            font-size: 18px;
+            color: var(--accent-dark);
+            font-weight: bold;
+        }
+        .mark {
+            margin: 40px 0 20px;
+            font-size: 2.5rem;
+            /* Placeholder for the background clip effect */
+            color: var(--accent-dark);
+            text-align: center;
+        }
+        button{
+            padding: 12px 25px;
+            border-radius: 25px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            background-color: var(--accent-light);
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: var(--accent-dark);
+        }
+        .wrap{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px 0 30px;
+        }
+        .moonu{
+            background-color: var(--bg-primary);
+            padding: 20px 0;
+        }
+        .wallpaper img, .color img {
+            height: auto;
+            max-height: 450px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 90%;
+            display: block;
+        }
+        
+        .footer-status {
+            position: fixed; 
+            bottom: 10px; 
+            right: 10px; 
+            background: #fdfaf6; 
+            padding: 5px 10px; 
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            font-size: 0.8rem;
+        }
+
+        /* --- MEDIA QUERIES --- */
+        
+        @media (min-width: 769px) {
+            .icons-container {
+                margin-right: 50px; 
+            }
+            
+            /* Ensure mobile menu is hidden in desktop view (added for safety on resize) */
+            .mobile-menu {
+                max-height: 0 !important;
+                padding: 0 30px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 15px 20px;
+            }
+            .nav-links {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
+            
+            body {
+                padding-top: 66px;
+            }
+            
+            .icons {
+                gap: 12px;
+            }
+            
+            .account-box.hidden.md\:block {
+                display: none;
+            }
+            
+            .four1, .six1, .nine1 {
+                width: 90%; /* Make cards full width on mobile */
+            }
+            
+            .four, .six, .nine {
+                padding: 10px;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav>
+
+        <!-- LEFT SIDE: LOGO + MENU -->
+        <div class="left-box">
+            <div class="logo">Paint Spot</div>
+
+            <div class="nav-links">
+                <a href="#">Home</a> 
+                <a href="#">Products</a>
+                <a href="#">Services</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+
+        <!-- RIGHT ICONS AND TOGGLE -->
+        <div class="icons-container"> 
+            
+            <!-- ICONS -->
+            <div class="icons">
+                <i class="fa-solid fa-heart" title="Favorites"></i>
+                
+                <!-- Cart with Badge -->
+                <div class="relative">
+                    <i class="fa-solid fa-cart-shopping" title="Shopping Cart"></i>
+                    <!-- Added badge back for visual completeness -->
+                    <span id="cart-count" class="cart-badge">4</span> 
+                </div>
+
+                <!-- ACCOUNT DROPDOWN (Desktop only) -->
+                <div class="account-box hidden md:block">
+                    <i id="accIcon" class="fa-solid fa-user" title="Account"></i>
+
+                    <div class="dropdown" id="accMenu">
+                        <!-- Content rendered by JS based on login state -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu Toggle Button -->
+            <i id="mobileToggle" class="fa-solid fa-bars menu-toggle"></i>
+        </div>
+
+    </nav>
+
+    <!-- MOBILE MENU (Smoothly toggled by JS) -->
+    <div class="mobile-menu" id="mobileMenuContent">
+        <a href="#">Home</a>
+        <a href="#">Products</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+        <div class="mobile-auth-section" id="mobileAuthContent">
+            <!-- Auth Buttons rendered by JS -->
+        </div>
+    </div>
+    
+    <!-- MAIN CONTENT SECTIONS -->
+
+    <div class="one">
+        <!-- Placeholder for frontpage.png -->
+        <img src="https://placehold.co/1200x500/b87333/ffffff?text=Premium+Paints+&+Inspiration" alt="Front Page Banner">
+    </div>
+
+    <br>
+    <div class="two">
+        <h2>Start your paint journey here</h2>
+        <p>Dive into the colourful world of painting jargons with our helpful guide for beginners.</p>
+        <div class="second">
+            <input type="search" class="search-input" placeholder="Search for colors, products, or guides">
+        </div>
+    </div>
+    <br>
+    <div class="mark"><h1>"The Ultimate Paint Collection"</h1></div>
+    <br>
+    <div class="moonu">
+        <div class="three">
+            <h2 style="color: var(--accent-dark);">Explore Product Categories</h2>
+            <p>From walls paints to painting tools, we offer everything you're looking for your painting needs.</p>
+            <div class="wrap">
+                <button type="view" ><a href="view.html" style="text-decoration: none; color: white;"> View products &rarr; </a></button>
+            </div>
+        </div>
+        <br>
+        <div class="four">
+            <div class="four1">
+                <!-- Placeholder for intcol1.jpg -->
+                <img src="https://placehold.co/320x280/5C4033/ffffff?text=Interior+Paints" alt="Interior paints">
+                <div class="fourth">Interior paints</div>
+            </div>
+            <div class="four1">
+                <!-- Placeholder for expaint.jpg -->
+                <img src="https://placehold.co/320x280/8B4513/ffffff?text=Exterior+Paints" alt="Exterior paints">
+                <div class="fourth">Exterior paints</div>
+            </div>
+            <div class="four1">
+                <!-- Placeholder for wall.jpg -->
+                <img src="https://placehold.co/320x280/A0522D/ffffff?text=Wall+Texture+Kits" alt="Wall texture">
+                <div class="fourth">Wall texture</div>
+            </div>
+            <div class="four1">
+                <!-- Placeholder for indigo4.jpg -->
+                <img src="https://placehold.co/320x280/D2B48C/5C4033?text=Waterproofing+Solutions" alt="Waterproofing">
+                <div class="fourth">Waterproofing</div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="mark"><h1>“Find Your Perfect Color Match”</h1></div>
+    <br>
+    <div class="colours">
+        <div class="color">
+            <!-- Placeholder for colour.webp -->
+            <img src="https://placehold.co/1200x400/C4A484/333333?text=Inspiring+Color+Palettes" width="100%" alt="Color Palette Inspiration">
+        </div>
+    </div>
+    <div class="moonu">
+        <div class="five">
+            <h2 style="color: var(--accent-dark);">Popular colours</h2>
+            <p>Explore the Popular shades! With the reputation of elevating any spaces, these colour can be used as combinations or by themselves.</p>
+            <div class="wrap">
+                <button type="explore"><a href="colours.html" style="text-decoration: none; color: white;"> Explore now &rarr; </a></button>
+            </div>
+        </div>
+
+        <br>
+        <div class="six">
+            <!-- Placeholders for 8 colors -->
+            <div class="six1">
+                <img src="https://placehold.co/320x280/9e0000/ffffff?text=Cardinal" alt="Cardinal">
+                <div class="sixth">Cardinal</div>
+            </div>
+            <div class="six1">
+                <img src="https://placehold.co/320x280/e7955c/ffffff?text=Dessert+Love" alt="Dessert Love">
+                <div class="sixth">Dessert Love</div>
+            </div>
+            <div class="six1">
+                <img src="https://placehold.co/320x280/A9A9A9/ffffff?text=Silver+Escapade" alt="Silver Escapade">
+                <div class="sixth">Silver Escapade</div>
+            </div>
+            <div class="six1">
+                <img src="https://placehold.co/320x280/ffc0cb/333333?text=Transcendent+Pink" alt="Transcendent Pink">
+                <div class="sixth">Transcendent Pink</div>
+            </div>
+            <div class="six1">
+                <img src="https://placehold.co/320x280/F4A460/ffffff?text=Cherish" alt="Cherish">
+                <div class="sixth">Cherish</div>
+            </div>
+            <div class="six1">
+                <img src="https://placehold.co/320x280/8A2BE2/ffffff?text=Curiosity" alt="Curiosity">
+                <div class="sixth">Curiosity</div>
+            </div>
+            <div class="six1">
+                <img src="https://placehold.co/320x280/3CB371/ffffff?text=Awakening" alt="Awakening">
+                <div class="sixth">Awakening</div>
+            </div>
+            <div class="six1">
+                <img src="https://placehold.co/320x280/6A5ACD/ffffff?text=Passion+Flower" alt="Passion Flower">
+                <div class="sixth">Passion Flower</div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="mark"><h1>“Walls That Reflect Your Personality”</h1></div>
+    <br>
+    <div class="wallpaper">
+        <!-- Placeholder for wallpaper.jpg -->
+        <img src="https://placehold.co/1200x400/D3D3D3/333333?text=Elegant+Wallpaper+Styles" alt="Wallpaper Styles Banner">
+    </div>
+    <div class="moonu">
+        <div class="five">
+            <h2 style="color: var(--accent-dark);">Explore Wallpaper Style</h2>
+            <p>Enchanting to behold and fascinating to contemplate, a delicate choreography of contrasts fills a space with art and atmosphere, while a tale is told of the universe's greatest puzzle-Time</p>
+            <div class="wrap">
+                <button type="explore"><a href="wallpaper.html" style="text-decoration: none; color: white;"> View collection &rarr; </a></button>
+            </div>
+        </div>
+        <br>
+        <div class="nine">
+            <div class="nine1">
+                <!-- Placeholder for paperstyle1.webp -->
+                <img src="https://placehold.co/320x280/A28A76/ffffff?text=Abstract+Patterns">
+                <div class="nineth">
+                    <p><b>Abstract</b></p>
+                </div>
+            </div>
+            <div class="nine1">
+                <!-- Placeholder for paperstyle2.webp -->
+                <img src="https://placehold.co/320x280/69905F/ffffff?text=Botanical+Prints">
+                <div class="nineth">
+                    <p><b>Botanical</b></p>
+                </div>
+            </div>
+            <div class="nine1">
+                <!-- Placeholder for paperstyle3.webp -->
+                <img src="https://placehold.co/320x280/B8860B/ffffff?text=Damask+Luxury">
+                <div class="nineth">
+                    <p><b>Damask</b></P>
+                </div>
+            </div>
+            <div class="nine1">
+                <!-- Placeholder for paperstyle4.webp -->
+                <img src="https://placehold.co/320x280/E0D0C0/333333?text=Plain+Textures">
+                <div class="nineth">
+                    <p><b>Plain Textures</b></p>
+                </div>
+            </div>
+            <div class="nine1">
+                <!-- Placeholder for paperstyle5.webp -->
+                <img src="https://placehold.co/320x280/708090/ffffff?text=Striped+Design">
+                <div class="nineth">
+                    <p><b>Striped</b></p>
+                </div>
+            </div>
+            <div class="nine1">
+                <!-- Placeholder for paperstyle6.webp -->
+                <img src="https://placehold.co/320x280/8B4513/ffffff?text=Traditional+Style">
+                <div class="nineth">
+                    <p><b>Traditional</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- FIX: Re-added the status element to fix the JavaScript error -->
+    <div class="footer-status">
+        Auth Status: <span id="authStatus">Logged Out</span>
+    </div>
+
+    <script>
+        // --- State and DOM Elements ---
+        let isLoggedIn = false; // Simulated authentication state
+        const MOBILE_BREAKPOINT = 768; // Consistent breakpoint
+
+        const accIcon = document.getElementById("accIcon");
+        const accMenu = document.getElementById("accMenu");
+        const mobileToggle = document.getElementById("mobileToggle");
+        const mobileMenuContent = document.getElementById("mobileMenuContent");
+        const mobileAuthContent = document.getElementById("mobileAuthContent");
+        
+        // FIX: Ensure this element exists in the HTML
+        const authStatusElement = document.getElementById("authStatus"); 
+
+
+        // --- Functions ---
+        
+        // Renders the correct content in the account dropdowns and updates status text
+        function renderAuthMenus() {
+            // 1. Update visual status
+            if (authStatusElement) {
+                authStatusElement.textContent = isLoggedIn ? "Logged In" : "Logged Out";
+                authStatusElement.style.color = isLoggedIn ? "green" : "red";
+            }
+
+            // 2. Desktop Dropdown Content (Only if element exists)
+            if (accMenu) {
+                const desktopContent = isLoggedIn
+                    ? `
+                        <a href="#"><i class="fa-solid fa-user"></i> Profile</a>
+                        <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+                        <button onclick="handleLogout()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</button>
+                    `
+                    : `
+                        <button onclick="handleLogin()"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+                    `;
+                accMenu.innerHTML = desktopContent;
+            }
+            
+            // 3. Mobile Auth Buttons
+            if (mobileAuthContent) {
+                 const mobileContent = isLoggedIn
+                    ? `
+                        <button onclick="handleLogout()">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                        </button>
+                    `
+                    : `
+                        <button onclick="handleLogin()">
+                            <i class="fa-solid fa-right-to-bracket"></i> Login
+                        </button>
+                    `;
+                mobileAuthContent.innerHTML = mobileContent;
+            }
+        }
+
+        // Simulates login
+        window.handleLogin = function() {
+            isLoggedIn = true;
+            renderAuthMenus();
+            if(accMenu) accMenu.style.display = "none"; // Close desktop menu
+            if(mobileMenuContent) mobileMenuContent.classList.remove('is-open'); // Close mobile menu smoothly
+            console.log("User logged in!");
+        };
+
+        // Simulates logout
+        window.handleLogout = function() {
+            isLoggedIn = false;
+            renderAuthMenus();
+            if(accMenu) accMenu.style.display = "none"; // Close desktop menu
+            if(mobileMenuContent) mobileMenuContent.classList.remove('is-open'); // Close mobile menu smoothly
+            console.log("User logged out!");
+        };
+
+        // Toggles desktop account menu visibility
+        function toggleAccountMenu(e) {
+            e.stopPropagation(); 
+            if (accMenu) {
+                accMenu.style.display =
+                    accMenu.style.display === "block" ? "none" : "block";
+            }
+        }
+
+        // Toggles mobile menu visibility (using class for smooth CSS transition)
+        function toggleMobileMenu() {
+            if (mobileMenuContent) {
+                mobileMenuContent.classList.toggle('is-open');
+            }
+        }
+        
+        // --- Handler for screen resize (Ensures "normal" desktop view is restored) ---
+        function handleResize() {
+            if (window.innerWidth > MOBILE_BREAKPOINT) {
+                if(mobileMenuContent) mobileMenuContent.classList.remove('is-open');
+                if(accMenu) accMenu.style.display = "none";
+            }
+        }
+
+
+        // --- Event Listeners and Initial Setup ---
+
+        // 1. Desktop Account Icon Click
+        if (accIcon) {
+            accIcon.addEventListener("click", toggleAccountMenu);
+        }
+
+        // 2. Mobile Menu Toggle Click 
+        if (mobileToggle) {
+            mobileToggle.addEventListener("click", toggleMobileMenu);
+        }
+
+        // 3. Close desktop dropdown when clicking outside
+        document.addEventListener("click", function (e) {
+            if (accIcon && accMenu && !accIcon.contains(e.target) && !accMenu.contains(e.target)) {
+                accMenu.style.display = "none";
+            }
+        });
+        
+        // 4. Listen for window resize to reset mobile menu
+        window.addEventListener('resize', handleResize);
+
+        // 5. Initial content render (starts as logged out)
+        renderAuthMenus();
+    </script>
+
+</body>
+</html>
