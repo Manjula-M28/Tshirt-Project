@@ -288,10 +288,10 @@
       setTimeout(() => {
         popup.classList.remove("active");
         // Alert for demonstration
-        location.href = "Textiqueen.html";
+        location.href = "index.html";
         
         // This is a placeholder, uncomment the line below for real redirect
-        // window.location.href = "Textiqueen.html"; 
+        // window.location.href = "index.html"; 
       }, 3000);
     }
 
@@ -328,9 +328,9 @@
       const storedName = localStorage.getItem("textiqueenName") || "Queen/King";
 
       if (email === storedEmail && password === storedPassword && storedEmail !== null) {
-        location.href = "Textiqueen.html";
+        location.href = "index.html";
         // Simulate redirect after successful login
-        // window.location.href = "Textiqueen.html"; 
+        // window.location.href = "index.html"; 
       } else if (storedEmail === null) {
         alert("No account found. Please sign up first.");
       } else {

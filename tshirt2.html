@@ -460,7 +460,7 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="Textiqueen.html" class="nav-link"> 
+                    <a href="index.html" class="nav-link"> 
                         <i class="fas fa-home"></i> Home
                     </a>
                 </li>
@@ -756,8 +756,8 @@ document.getElementById('tshirtForm').addEventListener('submit', function(e){
     window.location.href = 'tshirt3.html'; // redirect to new page
 });
 let currentPage = window.location.pathname.split("/").pop();
-if (currentPage === "" || currentPage === "Textiqueen.html") {
-    currentPage = "Textiqueen.html"; 
+if (currentPage === "" || currentPage === "index.html") {
+    currentPage = "index.html"; 
 }
 document.querySelectorAll(".nav-link").forEach(nav => {
     nav.classList.remove("active"); 
